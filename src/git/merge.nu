@@ -1,17 +1,32 @@
 use ../wrapper.nu [
-  local_branches
+  commits,
+  local_branches,
 ]
 
-# TODO: expand to individual commands
+use ../options.nu [
+  cleanup,
+]
+
+# These aren't good descriptions
+def strategy [] {
+  [
+    { value: "ort", description: "Default strategy for two heads" },
+    { value: "recursive", description: "Former default strategy for two heads" },
+    { value: "resolve", description: "Tries to detect criss-cross merges, does not handle renames" },
+    { value: "octopus", description: "Default strategy for multiple branches" },
+    { value: "ours", description: "Resolve multiple heads, supersedes old development history" },
+    { value: "subtree", description: "Modified ort strategy" },
+  ]
+}
 
 # Join two or more branches together
 export extern "git merge" [
-  commit?: string
-  --commit                           # Merge and commit
+  ...commits: string@commits         # Commits to merge into the current branch
+  --commit                           # Merge and commit (overrides --no-commit)
   --no-commit                        # Merge but do not commit
   --edit(-e)                         # Launch EDITOR for merge message
   --no-edit                          # Accept auto-generated merge message
-  --cleanup: string                  # Set merge message cleanup
+  --cleanup: string@cleanup          # Set merge message cleanup
   --ff                               # Attempt fast-forward
   --no-ff                            # Always create a merge commit
   --ff-only                          # Fast-forward or fail to merge
@@ -27,7 +42,7 @@ export extern "git merge" [
   --no-squash                        # Do not squash merge
   --verify                           # Run pre-merge and commit-msg hooks
   --no-verify                        # Skip pre-merge and commit-msg hooks
-  --strategy(-s): string             # Choose the merge strategy
+  --strategy(-s): string@strategy    # Choose the merge strategy
   --strategy-option(-X): string      # Set a merge strategy option
   --verify-signatures                # Verify commit signatures
   --no-verify-signatures             # Skip signature verification
@@ -45,9 +60,22 @@ export extern "git merge" [
   --no-rerere-autoupdate             # Disallow rerere updates
   --overwrite-ignore                 # Silently overwrite ignored files
   --no-overwrite-ignore              # Abort without overwriting ignored files
-  --abort                            # Abort conflict resolution
-  --quit                             # Forget about the merge in progress
-  --continue                         # Proceed after resolving conflicts
   --help                             # Show help
 ]
 
+# Abort the merge and try to reconstruct the pre-merge state
+export def "git merge abort" [] {
+  ^git merge --abort
+}
+
+# Proceed with the merge after resolving conflicts
+export def "git merge continue" [] {
+  ^git merge --continue
+}
+
+# Forget about the murge in-progress
+#
+# Leave the index and working tree as-is
+export def "git merge quit" [] {
+  ^git merge --quit
+}

@@ -1,5 +1,15 @@
 # Completions for git options
 
+export def cleanup [] {
+  [
+    { value: "strip", description: "Strip whitespace, commentary, collapse consecutive empty lines" },
+    { value: "whitespace", description: "Strip whitespace, collapse consecutive empty lines" },
+    { value: "verbatim", description: "Do not change the message" },
+    { value: "scissors", description: "Same as 'whitespace' but remove lines following the scissors" },
+    { value: "default", description: "'strip' if the message is to be edited, otherwise 'whitespace'" },
+  ]
+}
+
 export def color [] {
   [
     { value: "always", description: "Always respect color in output" },
