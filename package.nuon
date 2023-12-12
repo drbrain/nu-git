@@ -1,0 +1,18 @@
+{
+  name: "git.nu"
+  version: "0.1.0"
+  description: "A nu wrapper for `git` commands"
+  documentation: "https://github.com/drbrain/nu.git/blob/main/README.md"
+  maintainers: [
+    @drbrain
+  ]
+  license: "https://github.com/drbrain/nu.git/blob/main/LICENSE.md"
+  dependencies: {
+    nushell: 0.87.0+
+    git: 2.43.0
+  }
+  type: "module"
+  modules: [
+    "./src/",
+  ]
+}
