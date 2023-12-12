@@ -1,8 +1,14 @@
-# TODO: expand to individual commands
+use ../wrapper.nu [
+  commits,
+]
+
+use ../options.nu [
+  strategy,
+]
 
 # Revert some existing commits
 export extern "git revert" [
-  commit?: string
+  ...commits: string@commits    # Commits to revert
   --edit(-e)                    # Edit the revert commit message
   --mainline(-m): number        # Merge commit mainline commit number
   --no-edit                     # Do not edit the revert commit message
@@ -15,10 +21,25 @@ export extern "git revert" [
   --strategy-option(-X): string # Set a merge strategy-specific option
   --rerere-autoupdate           # Allow rerere to update the index
   --no-rerere-autoupdate        # Do not allow rerere to update the index
-  --continue                    # Continue the revert operation
-  --skip                        # Skip commit and continue operation
-  --quit                        # Forget the in-progress operation
-  --abort                       # Cancel the operation
-  --help                        # Show help
 ]
+
+# Cancel the operation and return to pre-revert state
+export def "git revert abort" [] {
+  ^git revert --abort
+}
+
+# Continue the revert after resolving conflicts
+export def "git revert continue" [] {
+  ^git revert --continue
+}
+
+# Forget about the revert
+export def "git revert quit" [] {
+  ^git revert --quit
+}
+
+# Skip the current commit and continue with the revert
+export def "git revert skip" [] {
+  ^git revert --skip
+}
 

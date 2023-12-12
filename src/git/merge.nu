@@ -5,19 +5,8 @@ use ../wrapper.nu [
 
 use ../options.nu [
   cleanup,
+  strategy,
 ]
-
-# These aren't good descriptions
-def strategy [] {
-  [
-    { value: "ort", description: "Default strategy for two heads" },
-    { value: "recursive", description: "Former default strategy for two heads" },
-    { value: "resolve", description: "Tries to detect criss-cross merges, does not handle renames" },
-    { value: "octopus", description: "Default strategy for multiple branches" },
-    { value: "ours", description: "Resolve multiple heads, supersedes old development history" },
-    { value: "subtree", description: "Modified ort strategy" },
-  ]
-}
 
 # Join two or more branches together
 export extern "git merge" [
