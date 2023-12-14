@@ -394,7 +394,7 @@ export def "git config get-urlmatch" [
   let args = $args | append [ $name $url ]
 
   run-external --redirect-stdout "git" "config" "--get-urlmatch" $args
-  | result_to_output $null $show_origin $show_scope $record
+  | result_to_output $null false false $record
 }
 
 # List all variables and values
@@ -416,7 +416,7 @@ export def "git config list" [
   if $name_only { $args = ( $args | append "--name-only" ) }
 
   run-external --redirect-stdout "git" "config" "--list" "--null" $args
-  | result_to_output $null $show_origin $show_scope $record
+  | result_to_output $null false false $record
 }
 
 # Remove a section
