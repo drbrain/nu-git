@@ -1,7 +1,9 @@
 # Adapted from original by Yorick Sijsling
 # Adapted from bash version by Rob Miller <rob@bigfish.co.uk>
 
-use wrapper git *
+use ../wrapper.nu [
+  git_remotes
+]
 
 # Delete local (and optionally remote) merged branches
 #
@@ -108,7 +110,7 @@ def get_keep [] {
 #
 # We use the remote default branch here, just in case our local default branch is out of date.
 def list_merged [
-  --remote # List remote branches (local default)
+  --remote           # List remote branches (local default)
   upstream: string   # Upstream repository
   branch: string     # Default branch
   keep: list<string> # Patterns to keep. The default branch and HEAD will be added
