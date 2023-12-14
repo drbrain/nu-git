@@ -39,6 +39,64 @@ export def mirror [] {
   ]
 }
 
+export def sort_key [] {
+  [
+    { value: "refname", description: "Name of the ref" },
+    { value: "objecttype", description: "Object type" },
+    { value: "objectsize", description: "Object size" },
+    { value: "objectname", description: "Object name (SHA-1)" },
+    { value: "deltabase", description: "Object delta base, if stored as a delta" },
+    { value: "upstream", description: "Upstream ref name" },
+    { value: "push", description: "Ref push location" },
+    { value: "HEAD", description: "The current ref" },
+    { value: "symref", description: "The ref the symbolic ref refers to" },
+    { value: "signature", description: "GPG signature" },
+    { value: "signature:grade", description: "GPG signature grade" },
+    { value: "signature:signer", description: "GPG signer" },
+    { value: "signature:key", description: "GPG key" },
+    { value: "signature:fingerprint", description: "GPG fingerprint" },
+    { value: "signature:primarykeyfingerprint", description: "GPG primary key fingerprint" },
+    { value: "signature:trustlevel", description: "GPG signature trust level" },
+    { value: "worktreepath", description: "Absolute path to the worktree" },
+    { value: "ahead-behind:", description: "Commits ahead and behind" },
+    { value: "describe:", description: "Describe string" },
+    { value: "tree", description: "" },
+    { value: "parent", description: "Parent commit" },
+    { value: "object", description: "" },
+    { value: "type", description: "Object type" },
+    { value: "tag", description: "" },
+    { value: "creator", description: "" },
+    { value: "creatordate", description: "" },
+
+    { value: "author", description: "Author" },
+    { value: "authorname", description: "Author name" },
+    { value: "authoremail", description: "Author email" },
+    { value: "authordate", description: "Author date" },
+    { value: "committer", description: "Committer" },
+    { value: "committername", description: "Committer name" },
+    { value: "committeremail", description: "Committer email" },
+    { value: "committerdate", description: "Committer date" },
+    { value: "tagger", description: "Tagger" },
+    { value: "taggername", description: "Tagger name" },
+    { value: "taggeremail", description: "Tagger email" },
+    { value: "taggerdate", description: "Tagger date" },
+
+    { value: "raw", description: "Raw object data" },
+    { value: "raw:size", description: "Raw object size" },
+
+    { value: "contents", description: "Commit or tag message" },
+    { value: "contents:size", description: "Message size" },
+    { value: "contents:subject", description: "Message subject" },
+    { value: "contents:body", description: "Message body" },
+    { value: "contents:signature", description: "Tag signature" },
+    { value: "contents:lines=", description: "First N message lines" },
+
+    { value: "trailers", description: "" },
+
+    { value: "version:refname", description: "Version" },
+  ]
+}
+
 # These aren't good descriptions
 export def strategy [] {
   [

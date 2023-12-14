@@ -1,6 +1,7 @@
 use ../options.nu [
   color,
   column,
+  sort_key,
 ]
 
 use ../wrapper.nu [
@@ -126,7 +127,7 @@ export def "git branch list" [
   --no-merged: string                      # Only list branches that are not reachable from this commit
   --points-at: string                      # Only list branches of this object
   --remotes(-r)                            # List the remote tracking branch
-  --sort: string                           # Sort based on the given key
+  --sort: string@sort_key                  # Sort based on the given key
   ...branches: string@branches_and_remotes # Branch patterns to list
 ] {
   mut args = [ "--list" ]
