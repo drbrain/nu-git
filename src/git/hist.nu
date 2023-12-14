@@ -1,3 +1,7 @@
+use ../wrapper.nu [
+  git_commits
+]
+
 # Show a simplified view of recent history
 export def "git hist" [
   --max-count: int = 500 # Number of commits to show
