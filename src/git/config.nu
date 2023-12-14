@@ -1,3 +1,51 @@
+export def names [
+  context: string
+] {
+  let config = if not ( $context | parse -r '--global' | is-empty ) {
+    "--global"
+  } else if not ( $context | parse -r '--system' | is-empty ) {
+    "--system"
+  } else if not ( $context | parse -r '--local' | is-empty ) {
+    "--local"
+  } else if not ( $context | parse -r '--worktree' | is-empty ) {
+    "--worktree"
+  } else if not ( $context | parse -r '--file' | is-empty ) {
+    let file = $context | parse -r '\s--file\s+(?<file>[^\s]+)'
+    [ "--file" $file ]
+  } else if not ( $context | parse -r '-f' | is-empty ) {
+    let file = $context | parse -r '\s-file\s+(?<file>[^\s]+)'
+    [ "--file" $file ]
+  } else if not ( $context | parse -r '--blob' | is-empty ) {
+    let blob = $context | parse -r '\s--blob\s+(?<blob>[^\s]+)'
+    [ "--blob" $blob ]
+  }
+
+  let args = [
+    "--list"
+    "--name-only"
+    "--show-origin"
+    "--show-scope"
+  ]
+  | append $config
+
+  let complete = $context
+  | parse -r '\s(?<final>[^\s]+)$'
+  | get final.0
+
+  run-external --redirect-stdout "git" "config" $args
+  | lines
+  | parse "{origin}\t{scope}\t{value}"
+  | where value =~ $"^($complete)"
+  | upsert description {|r|
+    let s = $r.scope
+    | parse -r '(?<source>[^:]+):(?<scope>.*)'
+
+    $"($r.origin) \(($s.source.0) ($s.scope.0)\)"
+  }
+  | select value description
+  | sort-by value
+}
+
 def config_type [] {
   [
     { value: "bool", description: "true or false" },
@@ -205,7 +253,7 @@ export def "git config get" [
   --null(-z)                 # End output values with a NUL
   --fixed-value              # Match <value_pattern> exactly
   --default: string          # Default value
-  name: string               # Name of value to aget
+  name: string@names         # Name of value to get
   value_pattern?: string     # Pattern of values to get
 ] {
   let args = option_file $global $system $local $worktree $file $blob
@@ -236,7 +284,7 @@ export def "git config get-all" [
   --show-scope               # Show config value origin scope
   --null(-z)                 # End output values with a NUL
   --fixed-value              # Match <value_pattern> exactly
-  name: string               # Name of value to aget
+  name: string@names         # Name of value to get
   value_pattern?: string     # Pattern of values to get
 ] {
   let args = option_file $global $system $local $worktree $file $blob
@@ -252,16 +300,16 @@ export def "git config get-all" [
 
 # Get a color as an ANSI color sequence
 export def "git config get-color" [
-  --global          # Use user .gitconfig
-  --system          # Use system .gitconfig
-  --local           # Use repository .gitconfig (default)
-  --worktree        # Use worktree .gitconfig
-  --file(-f): path  # Use named git config
-  --blob: string    # Read config from a blob object
-  --includes        # Respect includes
-  --no-includes     # Ignore includes
-  --default: string # Default color value
-  name: string      # Name of color to get
+  --global           # Use user .gitconfig
+  --system           # Use system .gitconfig
+  --local            # Use repository .gitconfig (default)
+  --worktree         # Use worktree .gitconfig
+  --file(-f): path   # Use named git config
+  --blob: string     # Read config from a blob object
+  --includes         # Respect includes
+  --no-includes      # Ignore includes
+  --default: string  # Default color value
+  name: string@names # Name of color to get
 ] {
   let args = option_file $global $system $local $worktree $file $blob
   let args = option_includes $args $includes $no_includes
@@ -281,7 +329,7 @@ export def "git config get-colorbool" [
   --blob: string                # Read config from a blob object
   --includes                    # Respect includes
   --no-includes                 # Ignore includes
-  name: string                  # Name of color to get
+  name: string@names            # Name of color to get
   stdout_is_tty?: string@is_tty # Override checking if stdout is a TTY
 ] {
   let args = option_file $global $system $local $worktree $file $blob
@@ -336,7 +384,7 @@ export def "git config get-urlmatch" [
   --no-type                  # Unset type validation
   --null(-z)                 # End output values with a NUL
   --record                   # Output as a record
-  name: string               # Name of value to add
+  name: string@names         # Name of value to add
   url: string                # URL to match
 ] {
   let args = option_file $global $system $local $worktree $file $blob
@@ -373,13 +421,13 @@ export def "git config list" [
 
 # Remove a section
 export def "git config remove-section" [
-  --global         # Use user .gitconfig
-  --system         # Use system .gitconfig
-  --local          # Use repository .gitconfig (default)
-  --worktree       # Use worktree .gitconfig
-  --file(-f): path # Use named git config
-  --blob: string   # Read config from a blob object
-  name: string     # Section to remove
+  --global           # Use user .gitconfig
+  --system           # Use system .gitconfig
+  --local            # Use repository .gitconfig (default)
+  --worktree         # Use worktree .gitconfig
+  --file(-f): path   # Use named git config
+  --blob: string     # Read config from a blob object
+  name: string@names # Section to remove
 ] {
   let args = option_file $global $system $local $worktree $file $blob
   let args = $args | append $name
@@ -389,14 +437,14 @@ export def "git config remove-section" [
 
 # Rename a section
 export def "git config rename-section" [
-  --global         # Use user .gitconfig
-  --system         # Use system .gitconfig
-  --local          # Use repository .gitconfig (default)
-  --worktree       # Use worktree .gitconfig
-  --file(-f): path # Use named git config
-  --blob: string   # Read config from a blob object
-  old_name: string # Old section name
-  new_name: string # New section name
+  --global               # Use user .gitconfig
+  --system               # Use system .gitconfig
+  --local                # Use repository .gitconfig (default)
+  --worktree             # Use worktree .gitconfig
+  --file(-f): path       # Use named git config
+  --blob: string         # Read config from a blob object
+  old_name: string@names # Old section name
+  new_name: string       # New section name
 ] {
   let args = option_file $global $system $local $worktree $file $blob
   let args = $args | append [ $old_name $new_name ]
@@ -415,7 +463,7 @@ export def "git config replace-all" [
   --type: string@config_type # Validate value type
   --no-type                  # Unset type validation
   --fixed-value              # Match <value_pattern> exactly
-  name: string               # Name of value to add
+  name: string@names         # Name of value to add
   value: string              # Value to add
   value_pattern?: string     # Pattern of values to replace
 ] {
@@ -436,7 +484,7 @@ export def "git config unset" [
   --file(-f): path       # Use named git config
   --blob: string         # Read config from a blob object
   --fixed-value          # Match <value_pattern> exactly
-  name: string           # Name of value to unset
+  name: string@names     # Name of value to unset
   value_pattern?: string # Pattern of values to unset
 ] {
   let args = option_file $global $system $local $worktree $file $blob
@@ -455,7 +503,7 @@ export def "git config unset-all" [
   --file(-f): path       # Use named git config
   --blob: string         # Read config from a blob object
   --fixed-value          # Match <value_pattern> exactly
-  name: string           # Name of value to unset
+  name: string@names     # Name of value to unset
   value_pattern?: string # Pattern of values to unset
 ] {
   let args = option_file $global $system $local $worktree $file $blob
