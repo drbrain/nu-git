@@ -26,7 +26,6 @@ export extern "git cherry-pick" [
   --skip                        # Skip commit and continue operation
   --quit                        # Forget the in-progress operation
   --abort                       # Cancel the operation
-  --help                        # Show help
 ]
 
-
+# TODO: Split --continue, etc. into separate commands
