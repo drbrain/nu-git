@@ -51,4 +51,3 @@ export extern "git fetch" [
   --ipv6(-6)                           # Use IPv6 only
 ]
 
-
