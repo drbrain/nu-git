@@ -32,6 +32,14 @@ export def column [] {
   ]
 }
 
+export def conflict [] {
+  [
+    { value: "merge", description: "RCS style" },
+    { value: "diff3", description: "RCS style with base hunk" },
+    { value: "zdiff3", description: "diff3 omitting common lines in the conflict" },
+  ]
+}
+
 export def mirror [] {
   [
     { value: "fetch", description: "Mirror every ref from the remote repository locally" },

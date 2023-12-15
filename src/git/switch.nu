@@ -1,20 +1,16 @@
+use ../options.nu [
+  conflict
+]
+
 use ../wrapper.nu [
   branches_and_remotes,
 ]
-
-export def conflict_style [] {
-  [
-    { value: "merge", description: "RCS style" },
-    { value: "diff3", description: "RCS style with base hunk" },
-    { value: "zdiff3", description: "diff3 omitting common lines in the conflict" },
-  ]
-}
 
 # Switch branches
 export extern "git switch" [
   branch?: string@branches_and_remotes # Branch to switch to
   start_point?: string                 # Starting point for the new branch
-  --conflict: string@conflict_style    # Like --merge, but show conflicting hunks
+  --conflict: string@conflict          # Like --merge, but show conflicting hunks
   --create(-c): string                 # Create a new branch
   --detach(-d)                         # Switch to a commit for inspection or experiments
   --discard-changes                    # Proceed even if the index or working tree differs from HEAD

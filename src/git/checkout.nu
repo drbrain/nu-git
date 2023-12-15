@@ -1,3 +1,7 @@
+use ../options.nu [
+  conflict
+]
+
 use ../wrapper.nu [
   modified,
 ]
@@ -14,7 +18,7 @@ export extern "git checkout" [
   --recurse-submodules: path  # Control recursive updating of submodules
   --progress                  # Force progress reporting
   --merge(-m)                 # Perform a 3-way merge with the new branch
-  --conflict: string          # Conflict style (merge or diff3)
+  --conflict: string@conflict # Conflict style (merge or diff3)
   --detach(-d)                # Detach HEAD at named commit
   --track(-t)                 # Set upstream info for new branch
   --force(-f)                 # Force checkout (throw away local modifications)
