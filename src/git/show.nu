@@ -6,6 +6,27 @@ use ../options.nu [
   color,
 ]
 
+def color_moved [] {
+  [
+    { value: "no", description: "Moved lines are not highlighted" }
+    { value: "default", description: "Blocks of moved text are painted in stripes" }
+    { value: "plain", description: "Lines are painted without permutation detection" }
+    { value: "blocks", description: "Blocks of moved text are painted" }
+    { value: "zebra", description: "Blocks of moved text are painted in stripes" }
+    { value: "dimmed-zebra", description: "Blocks of moved text are painted in stripes with uninteresting blocks dimmed" }
+  ]
+}
+
+def color_moved_ws [] {
+  [
+    { value: "no", description: "Do not ignore whitespace during move detection" }
+    { value: "ignore-space-at-eol", description: "Ignore EOL whitespace changes" }
+    { value: "ignore-space-change", description: "Ignore changes in amount of whitespace" }
+    { value: "ignore-all-change", description: "Ignore whitespace changes when comparing lines" }
+    { value: "allow-indentation-change", description: "Ignore whitespace changes when comparing lines" }
+  ]
+}
+
 def diff_algorithm [] {
   [
     { value: "default", description: "Basic greedy diff algorithm (myers)" },
@@ -13,6 +34,61 @@ def diff_algorithm [] {
     { value: "minimal", description: "Produce the smallest diff possible" },
     { value: "myers", description: "Basic greedy diff algorithm" },
     { value: "patience", description: "Best for generating patches" },
+  ]
+}
+
+def diff_merges [] {
+  [
+    { value: "off", description: "Disable diff output" }
+    { value: "none", description: "Disable diff output" }
+    { value: "on", description: "Output in default format" }
+    { value: "m", description: "Output in default format" }
+    { value: "first-parent", description: "With respect to first parent" }
+    { value: "1", description: "With respect to first parent" }
+    { value: "separate", description: "With respect to each parent" }
+    { value: "combined", description: "With respect to each parent simultaneously" }
+    { value: "c", description: "With respect to each parent simultaneously" }
+    { value: "dense-combined", description: "With respect to each parent simultaneously, omitting uninteresting hunks" }
+    { value: "cc", description: "With respect to each parent simultaneously, omitting uninteresting hunks" }
+    { value: "remerge", description: "Remerge into a temporary tree then diff the merge commit" }
+    { value: "r", description: "Remerge into a temporary tree then diff the merge commit" }
+  ]
+}
+
+def diff_submodule [] {
+  [
+    { value: "short", description: "Show start and end commits (default)" }
+    { value: "log", description: "List commits in the range" }
+    { value: "diff", description: "Inline diff of changes" }
+  ]
+}
+
+def diff_word [] {
+  [
+    { value: "color", description: "Highlight with color" }
+    { value: "plain", description: "Highlight with [-removed-] and {+added+}" }
+    { value: "porcelain", description: "Highlight with a format for script consumption" }
+    { value: "none", description: "Do not highlight" }
+  ]
+}
+
+def ignore_submodule [] {
+  [
+    { value: "none", description: "Never ignore" }
+    { value: "untracked", description: "When they only contain untracked content" }
+    { value: "dirty", description: "When there are worktree changes" }
+    { value: "all", description: "Always ignore" }
+  ]
+}
+
+def ws_error [] {
+  [
+    { value: "all", description: "Errors in all lines" }
+    { value: "context", description: "Errors in diff context lines" }
+    { value: "default", description: "Errors in new and old lines" }
+    { value: "new", description: "Errors in new lines" }
+    { value: "none", description: "No errors" }
+    { value: "old", description: "Errors in old lines" }
   ]
 }
 
@@ -34,11 +110,11 @@ export extern "git show" [
   --patch(-p)                             # Generate a patch
   -u                                      # Generate a patch
   --no-patch(-s)                          # Suppress diff output
-  --diff-merges: string                   # Specify diff format for merge commits
+  --diff-merges: string@diff_merges       # Specify diff format for merge commits
   --no-diff-merges                        # Disable output of diffs for merge commits
   --combined-all-paths                    # List file name from all parents of combined diffs
   --unified(-U): number                   # Generate diffs with <n> lines of context
-  --output: string                        # Output to a file
+  --output: path                          # Output to a file
   --output-indicator-new: string          # Specify patch added line character
   --output-indicator-old: string          # Specify patch removed context line character
   --output-indicator-context: string      # Specify patch context line character
@@ -64,21 +140,21 @@ export extern "git show" [
   -z                                      # Separate commits with NULs
   --name-only                             # Show only names of changed files
   --name-status                           # Show names and status of changed files
-  --submodule: string                     # Specify how differences in submodules are shown
+  --submodule: string@diff_submodule      # Specify how differences in submodules are shown
   --color: string@color                   # Show colored diff
   --no-color                              # Turn off colored diff
-  --color-moved: string                   # Color moved lines differently
+  --color-moved: string@color_moved       # Color moved lines differently
   --no-color-moved                        # Turn off move detection
-  --color-moved-ws: string                # Configure how whitespace is ignored with move detection
+  --color-moved-ws: string@color_moved_ws # Configure how whitespace is ignored with move detection
   --no-color-moved-ws                     # Do not ignore whitespace when performing move detection
-  --word-diff: string                     # Show a word diff
+  --word-diff: string@diff_word           # Show a word diff
   --word-diff-regex: string               # Use <regex> to decide what a word is
   --color-words: string                   # Shortcut for --word-diff=color --word-diff-regex=<regex>
   --no-renames                            # Turn off rename detection
   --rename-empty                          # Use empty blobs as rename source
   --no-rename-empty                       # Do not use empty blobs as rename source
   --check                                 # Warn if changes introduce conflict markers or whitespace errors
-  --ws-error-highlight: string            # Highlight whitespace errors
+  --ws-error-highlight: string@ws_error   # Highlight whitespace errors
   --full-index                            # Show full pre- and post-image blob object names
   --binary                                # Output a binary diff for git-apply
   --abbrev: number                        # Show the shortest prefix of at least <n> hexdigits
@@ -94,11 +170,11 @@ export extern "git show" [
   --find-object: string                   # Look for differences in the occurance of <object>
   --pickaxe-all                           # When -S or -G finds a change show all changes
   --pickaxe-regex                         # Treat the -S string as a POSIX regular expression
-  -O: string                              # Control the order of files in the output
-  --skip-to: string                       # Discard files before the named file
-  --rotate-to: string                     # Moves files before the named file to the end
+  -O: path                                # Control the order of files in the output
+  --skip-to: path                         # Discard files before the named file
+  --rotate-to: path                       # Moves files before the named file to the end
   -R                                      # Swap the inputs
-  --relative: string                      # Only show changes relative to <path>
+  --relative: path                        # Only show changes relative to <path>
   --no-relative                           # Show all changes
   --text(-a)                              # Treat all files as text
   --ignore-cr-at-eol                      # Ignore CR at EOL
@@ -120,4 +196,5 @@ export extern "git show" [
   --help                                  # Show help
 ]
 
-
+# TODO: interactive completion for --dirstat, --dirstat-by-file
+# TODO: interactive completion for --diff-filter
