@@ -1,5 +1,6 @@
 # Pick out and massage parameters
 export extern "git rev-parse" [
+  args: string
   --parseopt              # Use git rev-parse option in parsing mode
   --keep-dashdash         # Echo first -- in --parseopt mode
   --stop-at-non-option    # Stop at the first non-option in --parseopt mode
@@ -46,7 +47,6 @@ export extern "git rev-parse" [
   --show-object-format: string # Show the object format for storage inside the .git directory
   --since: string         # Show objects after this date
   --until: string         # Show objects before this date
-  args: string
-  --help                  # Show help
 ]
 
+# TODO: split into --parseopt and --sq-quote
