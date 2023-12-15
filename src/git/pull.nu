@@ -1,6 +1,11 @@
+use ../options.nu [
+  cleanup
+  strategy
+]
+
 use ../wrapper.nu [
-  branches_and_remotes,
-  remote_branches,
+  branches_and_remotes
+  remote_branches
 ]
 
 def rebase_arg [] {
@@ -32,7 +37,7 @@ export extern "git pull" [
   --no-commit                                     # Merge but do not commit
   --edit(-e)                                      # Launch EDITOR for merge message
   --no-edit                                       # Accept auto-generated merge message
-  --cleanup: string                               # Set merge message cleanup
+  --cleanup: string@cleanup                       # Set merge message cleanup
   --ff                                            # Attempt fast-forward
   --no-ff                                         # Always create a merge commit
   --ff-only                                       # Fast-forward or fail to merge
@@ -48,7 +53,7 @@ export extern "git pull" [
   --no-squash                                     # Do not squash merge
   --verify                                        # Run pre-merge and commit-msg hooks
   --no-verify                                     # Skip pre-merge and commit-msg hooks
-  --strategy(-s): string                          # Choose the merge strategy
+  --strategy(-s): string@strategy                 # Choose the merge strategy
   --strategy-option(-X): string                   # Set a merge strategy option
   --verify-signatures                             # Verify commit signatures
   --no-verify-signatures                          # Skip signature verification
