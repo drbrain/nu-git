@@ -26,6 +26,5 @@ export extern "git rm" [
   --quiet(-q)                 # Suppress output
   --pathspec-from-file: path  # Read paths from file
   --pathspec-file-nul         # NUL separator for --pathspec-from-file
-  --help                      # Show help
 ]
 
