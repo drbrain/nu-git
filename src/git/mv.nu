@@ -6,6 +6,5 @@ export extern "git mv" [
   -k                   # Skip move or rename actions which would lead to an error condition
   --dry-run(-n)        # Do nothing; only show what would happen
   --verbose(-v)        # Report the names of files as they are moved
-  --help               # Show help
 ]
 
