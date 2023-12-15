@@ -109,3 +109,13 @@ export def strategy [] {
   ]
 }
 
+export def whitespace [] {
+  [
+    { value: "nowarn", description: "Do not warn on trailing whitespace" },
+    { value: "warn", description: "Warn on whitespace errors" },
+    { value: "fix", description: "Warn and fix trailing whitespace" },
+    { value: "error", description: "Fail on some whitespace errors" },
+    { value: "error-all", description: "Fail on all whitespace errors" },
+  ]
+}
+
