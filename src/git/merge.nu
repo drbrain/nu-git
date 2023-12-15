@@ -1,11 +1,11 @@
-use ../wrapper.nu [
-  commits,
-  local_branches,
-]
-
 use ../options.nu [
   cleanup,
   strategy,
+]
+
+use ../wrapper.nu [
+  commits,
+  local_branches,
 ]
 
 # Join two or more branches together
@@ -49,7 +49,6 @@ export extern "git merge" [
   --no-rerere-autoupdate             # Disallow rerere updates
   --overwrite-ignore                 # Silently overwrite ignored files
   --no-overwrite-ignore              # Abort without overwriting ignored files
-  --help                             # Show help
 ]
 
 # Abort the merge and try to reconstruct the pre-merge state
