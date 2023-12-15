@@ -20,7 +20,6 @@ export extern "git diff" [
   --ignore-space-at-eol      # Ignore changes in whitespace at EOL
   --ignore-space-change(-b)
   --quiet
-  --help                     # Show help
 ]
 
-
+# TODO: Split --cached, etc. into separate commands
