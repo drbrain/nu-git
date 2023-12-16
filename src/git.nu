@@ -24,6 +24,7 @@ export use git/log.nu *
 export use git/ls-files.nu *
 export use git/merge.nu *
 export use git/mv.nu *
+export use git/pull.nu *
 export use git/push.nu *
 export use git/rebase.nu *
 export use git/remote.nu *
