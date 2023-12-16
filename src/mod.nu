@@ -1,1 +1,1 @@
-use git.nu
+use git.nu *

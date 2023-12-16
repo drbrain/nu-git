@@ -99,6 +99,8 @@ def option_fixed_value [
   args: list<string>
   fixed_value: bool
 ] {
+  mut args = $args
+
   if $fixed_value {
     $args | append "--fixed-value"
   } else {
@@ -111,6 +113,8 @@ def option_includes [
   includes: bool
   no_includes: bool
 ] {
+  mut args = $args
+
   if $includes { $args = ( $args | append "--includes" ) }
   if $no_includes { $args = ( $args | append "--no-includes" ) }
 
@@ -121,6 +125,8 @@ def option_null [
   args: list<string>
   null: bool
 ] {
+  mut args = $args
+
   if $null {
     $args | append "--null"
   } else {
@@ -133,6 +139,8 @@ def option_show [
   origin: bool
   scope: bool
 ] {
+  mut args = $args
+
   if $origin { $args = ( $args | append "--show-origin" ) }
   if $scope { $args = ( $args | append "--show-scope" ) }
 
@@ -144,6 +152,8 @@ def option_type [
   type: string
   no_type: bool
 ] {
+  mut args = $args
+
   if $type != null { $args = ( $args | append [ "--type" $type ] ) }
   if $no_type { $args = ( $args | append "--no-type" ) }
 

@@ -21,15 +21,15 @@ export def config_get [
 ] {
   mut args = [
     "--local"
-    "--get" $name
+    "--get"
   ]
 
   if $type != null { $args = ( $args | append [ "--type" $type ]) }
 
-  let args = $args
+  let args = $args | append $name
 
   let value = try {
-    run-external --redirect-stdout --redirect-stderr "git" "config" $args
+    run-external --redirect-combine --trim-end-newline "git" "config" $args
   } catch {
     let error = match $env.LAST_EXIT_CODE {
       1 => {
@@ -82,9 +82,7 @@ export def config_get [
       $value | into int
     }
     _ => {
-      $value
-      | into string
-      | str trim -r -c "\n"
+      $value | into string
     }
   }
 }
@@ -138,7 +136,13 @@ export def git_commits [--hash-format: string = "%h", --max-count: int] {
 
 # Commits for completion
 export def commits [] {
-  git_commits --max-count 500
+  let max_count = try {
+    config_get "completion-nu.max-commits" int
+  } catch {
+    100
+  }
+
+  git_commits --max-count $max_count
   | insert description {||
       $"($in.subject) \(($in.author), ($in.date | date humanize)\)"
   }
