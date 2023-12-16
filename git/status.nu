@@ -2,6 +2,7 @@ use ../wrapper.nu [
   git_status
 ]
 
+# TODO: support more args
 #export extern "git status" [
 #  ...pathspec: path             # Paths to get status for
 #  --short(-s)                   # Use short format
