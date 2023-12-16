@@ -1,5 +1,6 @@
 use ../options.nu [
   strategy
+  whitespace
 ]
 
 use ../wrapper.nu [
