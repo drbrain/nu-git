@@ -1,19 +1,13 @@
 use ../options.nu [
-  color,
-  column,
-  sort_key,
+  color
+  column
+  sort_key
+  track
 ]
 
 use ../wrapper.nu [
-  branches_and_remotes,
+  branches_and_remotes
 ]
-
-def track [] {
-  [
-    { value: "direct", description: "Use the start point branch as the upstream" },
-    { value: "inherit", description: "Copy the start point upstream configuration" },
-  ]
-}
 
 # Create, list, delete, rename, etc. branches
 export def "git branch" [] {

@@ -117,6 +117,13 @@ export def strategy [] {
   ]
 }
 
+export def track [] {
+  [
+    { value: "direct", description: "Use the start point branch as the upstream" },
+    { value: "inherit", description: "Copy the start point upstream configuration" },
+  ]
+}
+
 export def whitespace [] {
   [
     { value: "nowarn", description: "Do not warn on trailing whitespace" },
