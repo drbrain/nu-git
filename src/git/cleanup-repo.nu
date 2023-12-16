@@ -2,6 +2,7 @@
 # Adapted from bash version by Rob Miller <rob@bigfish.co.uk>
 
 use ../wrapper.nu [
+  config_get
   git_remotes
 ]
 
@@ -94,16 +95,11 @@ def get_default_branch [
 
 # Get the local set of branches to always keep
 def get_keep [] {
-  let keep = run-external --redirect-stdout "git" "config" "--local" "--get" "cleanup-repo.keep"
-
-  if ( $keep | is-empty ) {
-    return []
+  try {
+    config_get "cleanup.repo"
+  } catch {
+    []
   }
-
-  $keep
-  | str trim
-  | split column " "
-  | get column1
 }
 
 # List all the branches that have been merged fully into the default branch.

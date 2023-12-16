@@ -14,6 +14,81 @@ export def branches_and_remotes [] {
   | sort
 }
 
+# Get config value and type
+export def config_get [
+  name: string  # Config name
+  type?: string # Value type
+] {
+  mut args = [
+    "--local"
+    "--get" $name
+  ]
+
+  if $type != null { $args = ( $args | append [ "--type" $type ]) }
+
+  let args = $args
+
+  let value = try {
+    run-external --redirect-stdout --redirect-stderr "git" "config" $args
+  } catch {
+    let error = match $env.LAST_EXIT_CODE {
+      1 => {
+        error make {
+          msg: "Config entry not found"
+          label: {
+            text: "name"
+            span: (metadata $name).span
+          }
+        }
+      }
+      127 => {
+        error make {
+          msg: "Config type mismatch"
+          label: {
+            text: $"($name) is not this type"
+            span: (metadata $type).span
+          }
+        }
+      }
+      _ => {
+        error make {
+          msg: "Unknown error getting config entry"
+        }
+      }
+    }
+
+    return $error
+  }
+
+  if ( $value | is-empty ) {
+    return null
+  }
+
+  match $type {
+    "bool" => {
+      $value | into bool
+    }
+    "bool-or-int" => {
+      if $value =~ '\d' {
+        $value | into  int
+      } else {
+        $value | into bool
+      }
+    }
+    "expiry-date" => {
+      $value | into datetime
+    }
+    "int" => {
+      $value | into int
+    }
+    _ => {
+      $value
+      | into string
+      | str trim -r -c "\n"
+    }
+  }
+}
+
 # Completion for branches in the local repository
 export def local_branches [] {
   git_local_branches
@@ -125,13 +200,6 @@ export def git_remote_branches [] {
   | lines
   | parse "{remote}/{name}\u{00}{commit}"
   | move remote --after name
-}
-
-def match [input, matchers: record] {
-    ( echo $matchers
-    | get $input
-    | do $in
-    )
 }
 
 # Parses most of `git status --porcelain=2`
