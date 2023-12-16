@@ -2,7 +2,7 @@ use ../wrapper.nu [
   modified,
 ]
 
-export def chmod [] {
+def chmod [] {
   [
     { value: "+x", description: "Set the executable bit" },
     { value: "-x", description: "Clear the executable bit" },
