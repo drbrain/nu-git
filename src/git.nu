@@ -2,9 +2,6 @@
 # https://github.com/nushell/nushell/blob/main/crates/nu-utils/src/sample_config/default_config.nu
 # which is covered by the MIT license
 
-use wrapper.nu *
-use options.nu *
-
 export use git/add.nu *
 export use git/blame.nu *
 export use git/branch.nu *
