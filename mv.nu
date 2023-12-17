@@ -1,5 +1,5 @@
 # Move or rename files, directories, or symlinks
-export extern "git mv" [
+export extern main [
   source: path         # Source paths
   ...destination: path # Destination path
   --force(-f)          # Force renaming or moving of a file even if the target exists

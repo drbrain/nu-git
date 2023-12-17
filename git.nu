@@ -17,10 +17,10 @@ export module fsck.nu
 export module gc.nu
 export module hist.nu
 export module init.nu
-# export use git/log.nu *
-# export use git/ls-files.nu *
-# export use git/merge.nu *
-# export use git/mv.nu *
+export module log.nu
+export module ls-files.nu
+export module merge.nu
+export module mv.nu
 # export use git/prune.nu *
 # export use git/pull.nu *
 # export use git/push.nu *

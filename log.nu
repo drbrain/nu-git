@@ -8,7 +8,7 @@ def decorate () {
 }
 
 # Show commit logs
-export extern "git log" [
+export extern main [
   revision_range?: string     # Show commits in this revision range
   ...pathspec: path           # Show commits for these files
   --follow                    # Follow file renames

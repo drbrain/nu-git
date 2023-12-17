@@ -1,15 +1,15 @@
-use ../options.nu [
-  cleanup,
-  strategy,
+use options.nu [
+  cleanup
+  strategy
 ]
 
-use ../wrapper.nu [
-  commits,
-  local_branches,
+use wrapper.nu [
+  commits
+  local_branches
 ]
 
 # Join two or more branches together
-export extern "git merge" [
+export extern main [
   ...commits: string@commits         # Commits to merge into the current branch
   --commit                           # Merge and commit (overrides --no-commit)
   --no-commit                        # Merge but do not commit
@@ -52,18 +52,18 @@ export extern "git merge" [
 ]
 
 # Abort the merge and try to reconstruct the pre-merge state
-export def "git merge abort" [] {
+export def abort [] {
   ^git merge --abort
 }
 
 # Proceed with the merge after resolving conflicts
-export def "git merge continue" [] {
+export def continue [] {
   ^git merge --continue
 }
 
 # Forget about the murge in-progress
 #
 # Leave the index and working tree as-is
-export def "git merge quit" [] {
+export def quit [] {
   ^git merge --quit
 }

@@ -1,5 +1,5 @@
 # Show files in the index and/or working directory
-export def "git ls-files" [
+export def main [
   ...files: path           # Files to show
   --cached(-c)             # Show all tracked files
   --deleted(-d)            # Show files with an unstaged deletion
