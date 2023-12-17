@@ -1,9 +1,9 @@
-use ../wrapper.nu [
-  stash_list,
+use wrapper.nu [
+  stash_list
 ]
 
 # Stash changes in a dirty working directory
-export extern "git stash" [
+export extern main [
   ...pathspec: path          # Paths to stash
   --patch(-p)                # Interactively add hunks of patch between the index and the work tree
   --staged(-S)               # Stash only the changes that are currently staged
@@ -18,28 +18,28 @@ export extern "git stash" [
 ]
 
 # Apply a single stashed state without removing it from the stash list
-export extern "git stash apply" [
+export extern apply [
   --index     # Try to reinstate the index changes also
   --quiet(-q) # Suppress feedback
 ]
 
 # Create a stash entry and return its objcet name
-export extern "git stash create" [
+export extern create [
   message?: string # Stash message
 ]
 
 # Clear all stash entries
-export extern "git stash clear" []
+export extern clear []
 
 # Remove a single stash entry
-export extern "git stash drop" [
+export extern drop [
   stash?: string # Stash commit to drop
   --index        # Try to reinstate the index changes also
   --quiet(-q)    # Suppress feedback
 ]
 
 # List stash entries
-export def "git stash list" () {
+export def list () {
   stash_list
   | each { |row|
     $row |
@@ -48,14 +48,14 @@ export def "git stash list" () {
 }
 
 # Remove a single stashed state and apply it to the current working tree state
-export extern "git stash pop" [
+export extern pop [
   stash?: string # Stash commit to pop
   --index        # Try to reinstate the index changes also
   --quiet(-q)    # Suppress feedback
 ]
 
 # Save local modifications to a new stash entry
-export extern "git stash push" [
+export extern push [
   ...pathspec: path          # Paths to stash
   --patch(-p)                # Interactively add hunks of patch between the index and the work tree
   --staged(-S)               # Stash only the changes that are currently staged
@@ -70,14 +70,14 @@ export extern "git stash push" [
 ]
 
 # Show changes record in the stash entry as a diff
-export extern "git stash show" [
+export extern show [
   stash?: string          # Stash commit
   --include-untracked(-u) # Show untracked files as part of the diff
   --only-untracked        # Show only the untracked files as part of the diff
 ]
 
 # Store a stash from `git stash create`
-export extern "git stash store" [
+export extern store [
   commit: string        # Stash commit to store
   --message(-m): string # Stash message
   --quiet(-q)           # Suppress feedback

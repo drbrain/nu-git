@@ -30,8 +30,8 @@ export module restore.nu
 export module rev-parse.nu
 export module revert.nu
 export module rm.nu
-# export use git/show.nu *
-# export use git/stash.nu *
+export module show.nu
+export module stash.nu
 export module status.nu
 # export use git/submodule.nu *
 # export use git/switch.nu *

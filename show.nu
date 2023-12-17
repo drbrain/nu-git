@@ -1,9 +1,9 @@
-use ../wrapper.nu [
-  commits,
+use wrapper.nu [
+  commits
 ]
 
-use ../options.nu [
-  color,
+use options.nu [
+  color
 ]
 
 def color_moved [] {
@@ -93,7 +93,7 @@ def ws_error [] {
 }
 
 # Show various types of objects
-export extern "git show" [
+export extern main [
   ...object: string@commits               # Object to show
   --pretty: string                        # Pretty-print the contents of commit logs
   --format: string                        # Pretty-print the contents of commit logs
@@ -193,7 +193,6 @@ export extern "git show" [
   --line-prefix: string                   # Prepend a this to every line
   --ita-invisible-in-index
   --ita-visible-in-index
-  --help                                  # Show help
 ]
 
 # TODO: interactive completion for --dirstat, --dirstat-by-file
