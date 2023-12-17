@@ -24,9 +24,9 @@ export module mv.nu
 export module prune.nu
 export module pull.nu
 export module push.nu
-# export use git/rebase.nu *
-# export use git/remote.nu *
-# export use git/restore.nu *
+export module rebase.nu
+export module remote.nu
+export module restore.nu
 # export use git/rev-parse.nu *
 # export use git/revert.nu *
 # export use git/rm.nu *

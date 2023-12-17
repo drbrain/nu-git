@@ -1,13 +1,13 @@
-use ../options.nu [
+use options.nu [
   conflict
 ]
 
-use ../wrapper.nu [
+use wrapper.nu [
   modified,
 ]
 
 # Restore working tree files
-export extern "git restore" [
+export extern main [
   ...pathspec: path@modified  # Paths to restore
   --source(-s): string        # Restore the working tree with content from this tree
   --patch(-p)                 # Interactively add hunks of patch between the index and the work tree

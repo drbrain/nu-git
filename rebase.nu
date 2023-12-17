@@ -1,9 +1,9 @@
-use ../options.nu [
+use options.nu [
   strategy
   whitespace
 ]
 
-use ../wrapper.nu [
+use wrapper.nu [
   branches_and_remotes
   local_branches
 ]
@@ -26,7 +26,7 @@ def rebase_merges [] {
 # Configure and start a rebase
 #
 # A rebase reapplies commits on top of another base tip
-export extern "git rebase" [
+export extern main [
   upstream?: string@branches_and_remotes    # Upstream branch to compare against
   branch?: string@local_branches            # working branch (default: HEAD)
   --onto: string@local_branches             # Starting point for creating new commits
@@ -76,33 +76,33 @@ export extern "git rebase" [
 ]
 
 # Abort rebasing and reset HEAD to the original branch
-export def "git rebase abort" [] {
+export def abort [] {
   ^git rebase --abort
 }
 
 # Restart the rebasing process after having resolved a merge conflict
-export def "git rebase continue" [] {
+export def continue [] {
   ^git rebase --continue
 }
 
 # Edit the todo list during interactive rebase
-export def "git rebase edit-todo" [] {
+export def "edit-todo" [] {
   ^git rebase --edit-todo
 }
 
 # Show the current patch when the rebase is stopped
-export def "git rebase show-current-patch" [] {
+export def "show-current-patch" [] {
   ^git rebase --show-current-patch
 }
 
 
 # Restart rebasing after skipping the current patch
-export def "git rebase skip" [] {
+export def skip [] {
   ^git rebase --skip
 }
 
 # Abort rebasing but HEAD is not reset to the original branch
-export def "git rebase quit" [] {
+export def quit [] {
   ^git rebase --quit
 }
 
