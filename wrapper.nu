@@ -211,75 +211,75 @@ export def git_remote_branches [] {
 # This does not parse the `<sub>` field containing the submodule status
 #
 # This does not parse the `<X><score>` field containing the rename/copy similarity status
-def parse_line [line: string] {
-  let line = ( $line | split row " " )
+def parse_line [] {
+  let line = $in | split row " "
   let status = $line.0
 
   match $status {
-    "?": {
-      ( {}
-      | insert name $line.1
-      | insert status "untracked"
-      | insert staged "untracked"
-      | insert unstaged "untracked"
-      )
+    "?" => {
+      {
+        name: $line.1
+        status: "untracked"
+        staged: "untracked"
+        unstaged: "untracked"
+      }
     },
-    "!": {
-      ( {}
-      | insert name $line.1
-      | insert status "ignored"
-      | insert staged "untracked"
-      | insert unstaged "untracked"
-      )
-    },
-    "1": {
-      let states = parse_states $line.1
+    "!" => {
+      {
+        name: $line.1
+        status: "ignored"
+        staged: "untracked"
+        unstaged: "untracked"
+      }
+    }
+    "1" => {
+      let states = $line.1 | parse_states
 
-      ( {}
-      | insert name $line.8
-      | insert status "changed"
-      | insert staged $states.staged
-      | insert unstaged $states.unstaged
-      | insert mode_head $line.3
-      | insert mode_index $line.4
-      | insert mode_worktree $line.5
-      | insert name_head $line.6
-      | insert name_index $line.7
-      )
-    },
-    "2": {
+      {
+        name: $line.8
+        status: changed
+        staged: $states.staged
+        unstaged: $states.unstaged
+        mode_head: $line.3
+        mode_index: $line.4
+        mode_worktree: $line.5
+        name_head: $line.6
+        name_index: $line.7
+      }
+    }
+    "2" => {
       let paths = parse_rename_path $line.9
-      let states = parse_states $line.1
+      let states = $line.1 | parse_states
 
-      ( {}
-      | insert status "renamed"
-      | insert name $paths.0
-      | insert staged $states.staged
-      | insert unstaged $states.unstaged
-      | insert mode_head $line.3
-      | insert mode_index $line.4
-      | insert mode_worktree $line.5
-      | insert name_head $line.6
-      | insert name_index $line.7
-      | insert original_name $paths.1
-      )
+      {
+        status: "renamed"
+        name: $paths.0
+        staged: $states.staged
+        unstaged: $states.unstaged
+        mode_head: $line.3
+        mode_index: $line.4
+        mode_worktree: $line.5
+        name_head: $line.6
+        name_index: $line.7
+        original_name: $paths.1
+      }
     },
-    "u": {
-      let states = parse_states $line.1
+    "u" => {
+      let states = $line.1 | parse_states
 
-      ( {}
-      | insert status "unmerged"
-      | insert name $line.10
-      | insert staged $states.staged
-      | insert unstaged $states.unstaged
-      | insert mode_stage_1 $line.3
-      | insert mode_stage_2 $line.4
-      | insert mode_stage_3 $line.5
-      | insert mode_worktree $line.6
-      | insert name_stage_1 $line.7
-      | insert name_stage_2 $line.8
-      | insert name_stage_3 $line.9
-      )
+      {
+        status: "unmerged"
+        name: $line.10
+        staged: $states.staged
+        unstaged: $states.unstaged
+        mode_stage_1: $line.3
+        mode_stage_2: $line.4
+        mode_stage_3: $line.5
+        mode_worktree: $line.6
+        name_stage_1: $line.7
+        name_stage_2: $line.8
+        name_stage_3: $line.9
+      }
     }
   }
 }
@@ -291,41 +291,43 @@ def parse_rename_path [paths: string] {
 }
 
 # State marker
-def parse_state [state: string] {
-  match $state {
-    ".": { "unmodified" },
-    "M": { "modified" },
-    "T": { "type changed" },
-    "A": { "added" },
-    "D": { "deleted" },
-    "R": { "renamed" },
-    "C": { "copied" },
-    "U": { "updated" }
+def parse_state [] {
+  match $in {
+    "." => { "unmodified" }
+    "M" => { "modified" }
+    "T" => { "type changed" }
+    "A" => { "added" }
+    "D" => { "deleted" }
+    "R" => { "renamed" }
+    "C" => { "copied" }
+    "U" => { "updated" }
   }
 }
 
 # States field contains the staged and unstaged status of an object
-def parse_states [states: string] {
-  let states = ( $states | split chars )
+def parse_states [] {
+  let states = $in | split chars
 
-  let staged = parse_state $states.0
-  let unstaged = parse_state $states.1
+  let staged = $states.0 | parse_state
+  let unstaged = $states.1 | parse_state
 
-  { staged: $staged, unstaged: $unstaged }
+  {
+    staged: $staged
+    unstaged: $unstaged
+  }
 }
 
 export def git_status [ignored: bool] {
-  let args = ["status", "--porcelain=2"]
-  let args = if ($ignored | into bool) {
-    ($args | append "--ignored")
-  } else {
-    $args
-  }
+  mut args = [ "--porcelain=2" ]
+  if ($ignored | into bool) { $args = ( $args | append "--ignored" ) }
 
-  ( run-external --redirect-stdout "git" $args
+  let args = $args
+
+  run-external --redirect-stdout "git" "status" $args
   | lines
-  | each { |line| parse_line $line }
-  )
+  | each {||
+    $in | parse_line
+  }
 }
 
 def stash_list_parse_line [line: string] {
