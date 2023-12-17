@@ -2,41 +2,41 @@
 # https://github.com/nushell/nushell/blob/main/crates/nu-utils/src/sample_config/default_config.nu
 # which is covered by the MIT license
 
-export use git/add.nu *
-export use git/blame.nu *
-export use git/branch.nu *
-export use git/checkout.nu *
-export use git/cherry-pick.nu *
-export use git/cleanup-repo.nu *
-export use git/clone.nu *
-export use git/commit.nu *
-export use git/config.nu *
-export use git/diff.nu *
-export use git/fetch.nu *
-export use git/fsck.nu *
-export use git/gc.nu *
-export use git/hist.nu *
-export use git/init.nu *
-export use git/log.nu *
-export use git/ls-files.nu *
-export use git/merge.nu *
-export use git/mv.nu *
-export use git/prune.nu *
-export use git/pull.nu *
-export use git/push.nu *
-export use git/rebase.nu *
-export use git/remote.nu *
-export use git/restore.nu *
-export use git/rev-parse.nu *
-export use git/revert.nu *
-export use git/rm.nu *
-export use git/show.nu *
-export use git/stash.nu *
-export use git/status.nu *
-export use git/submodule.nu *
-export use git/switch.nu *
-export use git/symbolic-ref.nu *
-export use git/tag.nu *
+# export use git/add.nu *
+# export use git/blame.nu *
+# export use git/branch.nu *
+# export use git/checkout.nu *
+# export use git/cherry-pick.nu *
+# export use git/cleanup-repo.nu *
+# export use git/clone.nu *
+# export use git/commit.nu *
+# export use git/config.nu *
+# export use git/diff.nu *
+# export use git/fetch.nu *
+# export use git/fsck.nu *
+# export use git/gc.nu *
+# export use git/hist.nu *
+# export use git/init.nu *
+# export use git/log.nu *
+# export use git/ls-files.nu *
+# export use git/merge.nu *
+# export use git/mv.nu *
+# export use git/prune.nu *
+# export use git/pull.nu *
+# export use git/push.nu *
+# export use git/rebase.nu *
+# export use git/remote.nu *
+# export use git/restore.nu *
+# export use git/rev-parse.nu *
+# export use git/revert.nu *
+# export use git/rm.nu *
+# export use git/show.nu *
+# export use git/stash.nu *
+export module status.nu
+# export use git/submodule.nu *
+# export use git/switch.nu *
+# export use git/symbolic-ref.nu *
+# export use git/tag.nu *
 
 # A revision control system
 export def main [] {

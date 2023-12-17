@@ -1,4 +1,4 @@
-use ../wrapper.nu [
+use wrapper.nu [
   git_status
 ]
 
@@ -31,7 +31,7 @@ use ../wrapper.nu [
 #]
 
 # Show the working tree status
-export def "git status" [ --ignored ] {
+export def main [ --ignored ] {
   let $ignored = $ignored | into string
 
   git_status $ignored

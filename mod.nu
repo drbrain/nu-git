@@ -1,1 +1,1 @@
-use git.nu *
+export module git.nu
