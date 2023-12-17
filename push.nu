@@ -1,6 +1,6 @@
-use ../wrapper.nu [
-  local_branches,
-  remotes,
+use wrapper.nu [
+  local_branches
+  remotes
 ]
 
 def recurse [] {
@@ -21,7 +21,7 @@ def signed [] {
 }
 
 # Update remote refs along with associated objects
-export extern "git push" [
+export extern main [
   remote?: string@remotes              # The remote to push to
   refspec?: string@local_branches      # The branch to push
   --verbose(-v)                        # be more verbose

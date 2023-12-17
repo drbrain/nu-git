@@ -21,9 +21,9 @@ export module log.nu
 export module ls-files.nu
 export module merge.nu
 export module mv.nu
-# export use git/prune.nu *
-# export use git/pull.nu *
-# export use git/push.nu *
+export module prune.nu
+export module pull.nu
+export module push.nu
 # export use git/rebase.nu *
 # export use git/remote.nu *
 # export use git/restore.nu *

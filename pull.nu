@@ -1,9 +1,9 @@
-use ../options.nu [
+use options.nu [
   cleanup
   strategy
 ]
 
-use ../wrapper.nu [
+use wrapper.nu [
   branches_and_remotes
   remote_branches
 ]
@@ -26,7 +26,7 @@ def recurse_submodules [] {
 }
 
 # Fetch from and integrate with another repository or a local branch
-export extern "git pull" [
+export extern main [
   repository?: string@branches_and_remotes        # The remote source repository
   ...respec: string@remote_branches               # Which refs to fetch and update locally
   --no-recurse-submodules                         # Do not update submodules when restoring
