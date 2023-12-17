@@ -1,41 +1,16 @@
+use options.nu [
+  color
+  color_moved
+  color_moved_ws
+  diff_algorithm
+  diff_submodule
+  diff_word
+  ws_error
+]
+
 use wrapper.nu [
   commits
 ]
-
-use options.nu [
-  color
-]
-
-def color_moved [] {
-  [
-    { value: "no", description: "Moved lines are not highlighted" }
-    { value: "default", description: "Blocks of moved text are painted in stripes" }
-    { value: "plain", description: "Lines are painted without permutation detection" }
-    { value: "blocks", description: "Blocks of moved text are painted" }
-    { value: "zebra", description: "Blocks of moved text are painted in stripes" }
-    { value: "dimmed-zebra", description: "Blocks of moved text are painted in stripes with uninteresting blocks dimmed" }
-  ]
-}
-
-def color_moved_ws [] {
-  [
-    { value: "no", description: "Do not ignore whitespace during move detection" }
-    { value: "ignore-space-at-eol", description: "Ignore EOL whitespace changes" }
-    { value: "ignore-space-change", description: "Ignore changes in amount of whitespace" }
-    { value: "ignore-all-change", description: "Ignore whitespace changes when comparing lines" }
-    { value: "allow-indentation-change", description: "Ignore whitespace changes when comparing lines" }
-  ]
-}
-
-def diff_algorithm [] {
-  [
-    { value: "default", description: "Basic greedy diff algorithm (myers)" },
-    { value: "histogram", description: "Patience that supports low-occurence common elements" },
-    { value: "minimal", description: "Produce the smallest diff possible" },
-    { value: "myers", description: "Basic greedy diff algorithm" },
-    { value: "patience", description: "Best for generating patches" },
-  ]
-}
 
 def diff_merges [] {
   [
@@ -55,40 +30,12 @@ def diff_merges [] {
   ]
 }
 
-def diff_submodule [] {
-  [
-    { value: "short", description: "Show start and end commits (default)" }
-    { value: "log", description: "List commits in the range" }
-    { value: "diff", description: "Inline diff of changes" }
-  ]
-}
-
-def diff_word [] {
-  [
-    { value: "color", description: "Highlight with color" }
-    { value: "plain", description: "Highlight with [-removed-] and {+added+}" }
-    { value: "porcelain", description: "Highlight with a format for script consumption" }
-    { value: "none", description: "Do not highlight" }
-  ]
-}
-
 def ignore_submodule [] {
   [
     { value: "none", description: "Never ignore" }
     { value: "untracked", description: "When they only contain untracked content" }
     { value: "dirty", description: "When there are worktree changes" }
     { value: "all", description: "Always ignore" }
-  ]
-}
-
-def ws_error [] {
-  [
-    { value: "all", description: "Errors in all lines" }
-    { value: "context", description: "Errors in diff context lines" }
-    { value: "default", description: "Errors in new and old lines" }
-    { value: "new", description: "Errors in new lines" }
-    { value: "none", description: "No errors" }
-    { value: "old", description: "Errors in old lines" }
   ]
 }
 

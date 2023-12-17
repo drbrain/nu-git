@@ -18,6 +18,29 @@ export def color [] {
   ]
 }
 
+export def color_moved [] {
+  [
+    [value description];
+    ["no" "Moved lines are not highlighted"]
+    ["default" "Blocks of moved text are painted in stripes"]
+    ["plain" "Lines are painted without permutation detection"]
+    ["blocks" "Blocks of moved text are painted"]
+    ["zebra" "Blocks of moved text are painted in stripes"]
+    ["dimmed-zebra" "Blocks of moved text are painted in stripes with uninteresting blocks dimmed"]
+  ]
+}
+
+export def color_moved_ws [] {
+  [
+    [value description];
+    ["no" "Do not ignore whitespace during move detection"]
+    ["ignore-space-at-eol" "Ignore EOL whitespace changes"]
+    ["ignore-space-change" "Ignore changes in amount of whitespace"]
+    ["ignore-all-change" "Ignore whitespace changes when comparing lines"]
+    ["allow-indentation-change" "Ignore whitespace changes when comparing lines"]
+  ]
+}
+
 # column display options from column.ui config option
 export def column [] {
   [
@@ -37,6 +60,37 @@ export def conflict [] {
     { value: "merge", description: "RCS style" },
     { value: "diff3", description: "RCS style with base hunk" },
     { value: "zdiff3", description: "diff3 omitting common lines in the conflict" },
+  ]
+}
+
+export def diff_algorithm [] {
+  [
+    [value description];
+
+    ["default"   "Basic greedy diff algorithm (myers)"]
+    ["histogram" "Patience that supports low-occurence common elements"]
+    ["minimal"   "Produce the smallest diff possible"]
+    ["myers"     "Basic greedy diff algorithm"]
+    ["patience"  "Best for generating patches"]
+  ]
+}
+
+export def diff_submodule [] {
+  [
+    [value description];
+    ["short" "Show start and end commits (default)"]
+    ["log" "List commits in the range"]
+    ["diff" "Inline diff of changes"]
+  ]
+}
+
+export def diff_word [] {
+  [
+    [value description];
+    ["color" "Highlight with color"]
+    ["plain" "Highlight with [-removed-] and {+added+}"]
+    ["porcelain" "Highlight with a format for script consumption"]
+    ["none" "Do not highlight"]
   ]
 }
 
@@ -131,6 +185,18 @@ export def whitespace [] {
     { value: "fix", description: "Warn and fix trailing whitespace" },
     { value: "error", description: "Fail on some whitespace errors" },
     { value: "error-all", description: "Fail on all whitespace errors" },
+  ]
+}
+
+export def ws_error [] {
+  [
+    [value description];
+    ["all" "Errors in all lines"]
+    ["context" "Errors in diff context lines"]
+    ["default" "Errors in new and old lines"]
+    ["new" "Errors in new lines"]
+    ["none" "No errors"]
+    ["old" "Errors in old lines"]
   ]
 }
 
