@@ -1,21 +1,23 @@
-use ../options.nu [
+use options.nu [
   color
   column
   sort_key
   track
 ]
 
-use ../wrapper.nu [
+use wrapper.nu [
   branches_and_remotes
 ]
 
+alias nu-rename = rename
+
 # Create, list, delete, rename, etc. branches
-export def "git branch" [] {
+export def main [] {
   help git branch
 }
 
 # Copy a branch
-export def "git branch copy" [
+export def "copy" [
   --force                             # Force branch creation
   --from: string@branches_and_remotes # Branch to copy from
   new_branch: string                  # New branch name
@@ -38,7 +40,7 @@ export def "git branch copy" [
 }
 
 # Create a branch
-export def "git branch create" [
+export def "create" [
   --force                   # Force branch creation
   --no-track                # Do not track an upstream branch
   --recurse-submodules      # Also create the branch on submodules
@@ -76,14 +78,14 @@ export def "git branch create" [
 }
 
 # The current branch name
-export def "git branch current" [] {
+export def "current" [] {
   run-external --redirect-stdout "git" "branch" "--show-current"
   | into string
   | str trim
 }
 
 # Delete branches
-export def "git branch delete" [
+export def "delete" [
   --force                                  # Force branch deletion
   --remotes(-r)                            # Delete remote tracking branches
   ...branches: string@branches_and_remotes # Branch patters
@@ -106,7 +108,7 @@ export def "git branch delete" [
 }
 
 # List branches
-export def "git branch list" [
+export def "list" [
   --abbrev: int                            # Abbreviate object names
   --all(-a)                                # List local and remote-tracking branches
   --color: string@color                    # Color branches to highlight types of branch
@@ -199,19 +201,19 @@ export def "git branch list" [
     | split column "\u{0}"
   }
   | flatten
-  | rename branch current upstream object
+  | nu-rename branch current upstream object
   | upsert current {|| $in.current == "*" }
 }
 
 # Edit the description for a branch
-export def "git branch edit-description" [
+export def "edit-description" [
   branch: string@branches_and_remotes # Branch name
 ] {
   run-external "git" "branch" "--edit-description" $branch
 }
 
 # Rename a branch
-export def "git branch rename" [
+export def "rename" [
   --force                             # Force branch rename
   --from: string@branches_and_remotes # Branch to rename
   new_branch: string                  # New branch name
@@ -234,14 +236,14 @@ export def "git branch rename" [
 }
 
 # Remove the upstream for a branch
-export def "git branch upstream remove" [
+export def "upstream remove" [
   branch: string@branches_and_remotes # Branch name
 ] {
   ^git branch --unset-upstream $branch
 }
 
 # Set the upstream branch for a branch
-export def "git branch upstream set" [
+export def "upstream set" [
   upstream: string                    # Upstream to track
   branch: string@branches_and_remotes # Branch name
 ] {

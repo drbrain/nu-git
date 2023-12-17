@@ -1,10 +1,10 @@
-use ../wrapper.nu [
-  local_branches,
-  modified,
+use wrapper.nu [
+  local_branches
+  modified
 ]
 
 # Show changes between commits, commit and tree, etc.
-export extern "git diff" [
+export extern main [
   branch?: string@local_branches
   ...pathspec: path@modified          # Files to diff
   --cached

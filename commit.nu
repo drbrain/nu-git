@@ -1,22 +1,23 @@
-use ../wrapper.nu [
-  commits,
-  modified,
+use wrapper.nu [
+  commits
+  modified
 ]
 
-use ../options.nu [
-  cleanup,
+use options.nu [
+  cleanup
 ]
 
 def untracked [] {
   [
-    { value: "no", description: "Show no untracked files" },
-    { value: "normal", description: "Show untracked files and directories" },
-    { value: "all", description: "Show files in untracked directories" },
+    [value description];
+    ["no" "Show no untracked files" ]
+    ["normal" "Show untracked files and directories"]
+    ["all" "Show files in untracked directories"]
   ]
 }
 
 # Record changes to the repository
-export extern "git commit" [
+export extern main [
   ...pathspec: path@modified              # Paths to commit
   --all(-a)                               # Include modified and deleted files
   --interactive                           # Interactively add hunks of patch between the index and the work tree

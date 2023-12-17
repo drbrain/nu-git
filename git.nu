@@ -2,16 +2,16 @@
 # https://github.com/nushell/nushell/blob/main/crates/nu-utils/src/sample_config/default_config.nu
 # which is covered by the MIT license
 
-# export use git/add.nu *
-# export use git/blame.nu *
-# export use git/branch.nu *
+export module add.nu
+export module blame.nu
+export module branch.nu
 # export use git/checkout.nu *
 # export use git/cherry-pick.nu *
 # export use git/cleanup-repo.nu *
 # export use git/clone.nu *
-# export use git/commit.nu *
+export module commit.nu
 # export use git/config.nu *
-# export use git/diff.nu *
+export module diff.nu
 # export use git/fetch.nu *
 # export use git/fsck.nu *
 # export use git/gc.nu *

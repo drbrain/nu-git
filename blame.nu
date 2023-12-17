@@ -39,7 +39,7 @@ def date [] {
 }
 
 # Show what revision and author last modified lines in a file
-export extern "git blame" [
+export extern main [
   file: path               # File to show blame for
   -b                       # Show blank SHA for boundary commits
   --root                   # Do not treat root commits as boundaries

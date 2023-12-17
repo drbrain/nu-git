@@ -1,5 +1,5 @@
-use ../wrapper.nu [
-  modified,
+use wrapper.nu [
+  modified
 ]
 
 def chmod [] {
@@ -10,7 +10,7 @@ def chmod [] {
 }
 
 # Add file contents to the index
-export extern "git add" [
+export extern main [
   ...pathspec: path@modified # Paths to add to the index
   --all(-A)                  # Update the index where the working tree has a matching file or index entry
   --chmod: string@chmod      # Override the executable bit of added files
@@ -33,7 +33,5 @@ export extern "git add" [
   --sparse                   # Allow updating index entries outside of the sparse-checkout cone
   --update(-u)               # Update the index just where it already has an entry matching <pathspec>
   --verbose(-v)              # Be verbose
-  --help                     # Show help
 ]
-
 
