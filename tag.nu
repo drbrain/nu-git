@@ -1,11 +1,11 @@
-use ../options.nu [
-  color,
-  column,
+use options.nu [
+  color
+  column
 ]
 
-use ../wrapper.nu [
-  commits,
-  git_tags,
+use wrapper.nu [
+  commits
+  git_tags
 ]
 
 def tags [] {
@@ -21,12 +21,12 @@ def cleanup_mode [] {
 }
 
 # Create, list, delete, or verify a tag object
-export def "git tag" [] {
+export def main [] {
   help git tag
 }
 
 # Create tag
-export def "git tag create" [
+export def create [
   tagname: string                # New tag name
   commit?: string@commits        # Commit to tag
   --annotate(-a)                 # Make an unsigned, annotated tag object
@@ -85,14 +85,14 @@ export def "git tag create" [
 }
 
 # Delete tags
-export def "git tag delete" [
+export def delete [
   ...tagname: string@tags # Tags to delete
 ] {
   run-external "git" "tag" "-d" $tagname
 }
 
 # List tags
-export def "git tag list" [
+export def list [
   ...pattern: string            # Tag patterns to match
   -n: number                    # Print lines from an annotation
   --column: string@column       # Display tag list in columns
@@ -185,7 +185,7 @@ export def "git tag list" [
 }
 
 # Verify GPG signatures of tags
-export def "git tag verify" [
+export def verify [
   ...tagname: string@tags # Tags to verify
   --format: string         # Format tag output
 ] {

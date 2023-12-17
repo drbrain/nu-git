@@ -33,10 +33,10 @@ export module rm.nu
 export module show.nu
 export module stash.nu
 export module status.nu
-# export use git/submodule.nu *
-# export use git/switch.nu *
-# export use git/symbolic-ref.nu *
-# export use git/tag.nu *
+export module submodule.nu
+export module switch.nu
+export module symbolic-ref.nu
+export module tag.nu
 
 # A revision control system
 export def main [] {

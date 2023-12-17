@@ -1,10 +1,10 @@
-use ../options.nu [
+use options.nu [
   conflict
   track
 ]
 
-use ../wrapper.nu [
-  branches_and_remotes,
+use wrapper.nu [
+  branches_and_remotes
 ]
 
 def args [
@@ -41,10 +41,12 @@ def args [
 }
 
 # Switch branches
-export extern "git switch" []
+export def main [] {
+  help git switch
+}
 
 # Create a new branch
-export def "git switch create" [
+export def create [
   new_branch: string
   start_point?: string
   --conflict: string@conflict          # Like --merge, but show conflicting hunks
@@ -69,7 +71,7 @@ export def "git switch create" [
 }
 
 # Switch to a commit for inspection and experiments
-export def "git switch detach" [
+export def detach [
   start_point: string # Commit to detach
   --conflict: string@conflict          # Like --merge, but show conflicting hunks
   --discard-changes                    # Proceed even if the index or working tree differs from HEAD
@@ -93,7 +95,7 @@ export def "git switch detach" [
 }
 
 # Create a new orphan branch
-export def "git switch orphan" [
+export def orphan [
   new_branch: string # Branch name
   --conflict: string@conflict          # Like --merge, but show conflicting hunks
   --discard-changes                    # Proceed even if the index or working tree differs from HEAD
@@ -117,7 +119,7 @@ export def "git switch orphan" [
 }
 
 # Switch to an existing branch
-export def "git switch to" [
+export def to [
   branch: string@branches_and_remotes # Branch to switch to
   --conflict: string@conflict          # Like --merge, but show conflicting hunks
   --discard-changes                    # Proceed even if the index or working tree differs from HEAD

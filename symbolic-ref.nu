@@ -1,10 +1,10 @@
 # Read, modify, or delete symbolic refs
-export def "git symbolic-ref" [] {
+export def main [] {
   help git symbolic-ref
 }
 
 # Create a symbolic ref
-export def "git symbolic-ref create" [
+export def create [
   -m: string   # Update the reflog for <name> with this reason
   name: string # Symbolic ref to create
   ref: string  # Branch that <name> will point to
@@ -19,7 +19,7 @@ export def "git symbolic-ref create" [
 }
 
 # Delete a symbolic ref
-export def "git symbolic-ref delete" [
+export def delete [
   --quiet(-q)  # Do not issue an error if the <name> is not a symbolic ref
   name: string # Symbolic ref name to delete
 ] {
@@ -33,7 +33,7 @@ export def "git symbolic-ref delete" [
 }
 
 # Read the path to a symbolic ref
-export def "git symbolic-ref read" [
+export def read [
   --no-recurse # Stop at the first symbolic ref
   --quiet(-q)  # Do not issue an error if the <name> is not a symbolic ref
   --recurse    # Follow a chain of symbolic refs (default)
