@@ -9,14 +9,17 @@ use wrapper.nu [
 ]
 
 def tags [] {
-  git_tags | rename "value" "description"
+  git_tags
+  | rename "value" "description"
 }
 
 def cleanup_mode [] {
   [
-    { value: "verbatim", description: "Do not change the message" }
-    { value: "whitespace", description: "Remove leading and trailing whitespace lines" }
-    { value: "strip", description: "Remove leading and trailing whitespace and comments" }
+    [value description];
+
+    ["verbatim"   "Do not change the message"]
+    ["whitespace" "Remove leading and trailing whitespace lines"]
+    ["strip"      "Remove leading and trailing whitespace and comments"]
   ]
 }
 
@@ -41,43 +44,17 @@ export def create [
 ] {
   mut args = []
 
-  if $annotate {
-    $args = ( $args | append ["--annotate"] )
-  }
-
-  if $edit {
-    $args = ( $args | append ["--edit"] )
-  }
-
-  if $file != null {
-    $args = ( $args | append ["--file" $file] )
-  }
-
-  if $force {
-    $args = ( $args | append ["--force"] )
-  }
-
-  if $local_user != null {
-    $args = ( $args | append ["--local-user" $local_user] )
-  }
-
-  if $message != null {
-    $args = ( $args | append ["--message" $message] )
-  }
-
-  if $no_sign {
-    $args = ( $args | append ["--no-sign"] )
-  }
-
-  if $sign {
-    $args = ( $args | append ["--sign"] )
-  }
+  if $annotate { $args = ( $args | append "--annotate" ) }
+  if $edit { $args = ( $args | append "--edit" ) }
+  if $file != null { $args = ( $args | append ["--file" $file] ) }
+  if $force { $args = ( $args | append "--force" ) }
+  if $local_user != null { $args = ( $args | append ["--local-user" $local_user] ) }
+  if $message != null { $args = ( $args | append ["--message" $message] ) }
+  if $no_sign { $args = ( $args | append "--no-sign" ) }
+  if $sign { $args = ( $args | append "--sign" ) }
 
   $args = ( $args | append [$tagname] )
-
-  if $commit != null {
-    $args = ( $args | append [$commit] )
-  }
+  if $commit != null { $args = ( $args | append [$commit] ) }
 
   let args = $args
 
@@ -88,7 +65,7 @@ export def create [
 export def delete [
   ...tagname: string@tags # Tags to delete
 ] {
-  run-external "git" "tag" "-d" $tagname
+  run-external "git" "tag" "--delete" $tagname
 }
 
 # List tags
@@ -108,67 +85,33 @@ export def list [
   --points-at: string@commits   # List tags of the given object
   --sort: string                # Sort by key
 ] {
-  mut args = []
+  mut args = [ "--list" ]
 
-  echo $"(scope variables | get name)"
-
-  if $n != null {
-    $args = ( $args | append ["-n" $n] )
-  }
-
-  if $column != null {
-    $args = ( $args | append ["--column" $column] )
-  }
-
-  if $contains != null {
-    $args = ( $args | append ["--contains" $contains] )
-  }
-
-  if $create_reflog != null {
-    $args = ( $args | append ["--create-reflog"] )
-  }
-
+  if $n != null { $args = ( $args | append [ "-n" $n ]) }
+  if $column != null { $args = ( $args | append [ "--column" $column ]) }
+  if $contains != null { $args = ( $args | append [ "--contains" $contains ]) }
+  if $create_reflog != null { $args = ( $args | append "--create-reflog" ) }
   if $format != null {
-    $args = ( $args | append ["--format" $format] )
+    $args = ( $args | append [ "--format" $format ] )
 
     if $color != null {
-      $args = ( $args | append ["--color" $color] )
+      $args = ( $args | append [ "--color" $color ] )
     }
   } else {
-    $args = ( $args | append ["--format" "%(refname:strip=2)%00%(contents:subject)"] )
+    $args = ( $args | append [ "--format" "%(refname:strip=2)%00%(contents:subject)" ])
   }
 
-  if $ignore_case {
-    $args = ( $args | append ["--ignore-case"] )
-  }
-
-  if $merged != null {
-    $args = ( $args | append ["--merged" $merged] )
-  }
-
-  if $no_column != null {
-    $args = ( $args | append ["--no-column"] )
-  }
-
-  if $no_contains != null {
-    $args = ( $args | append ["--no_contains" $no_contains] )
-  }
-
-  if $no_merged != null {
-    $args = ( $args | append ["--no-merged" $no_merged] )
-  }
-
-  if $points_at != null {
-    $args = ( $args | append ["--points-at" $points_at] )
-  }
-
-  if $sort != null {
-    $args = ( $args | append ["--sort" $sort] )
-  }
+  if $ignore_case { $args = ( $args | append "--ignore-case" ) }
+  if $merged != null { $args = ( $args | append [ "--merged" $merged ]) }
+  if $no_column != null { $args = ( $args | append "--no-column" ) }
+  if $no_contains != null { $args = ( $args | append [ "--no_contains" $no_contains ]) }
+  if $no_merged != null { $args = ( $args | append [ "--no-merged" $no_merged ]) }
+  if $points_at != null { $args = ( $args | append [ "--points-at" $points_at ]) }
+  if $sort != null { $args = ( $args | append [ "--sort" $sort ]) }
 
   let args = ( $args | append $pattern )
 
-  let result = GIT_PAGER=cat run-external --redirect-stdout "git" "tag" "-l" $args
+  let result = run-external --redirect-stdout "git" "tag" $args
 
   if $format == null {
     $result
@@ -187,18 +130,20 @@ export def list [
 # Verify GPG signatures of tags
 export def verify [
   ...tagname: string@tags # Tags to verify
-  --format: string         # Format tag output
+  --format: string        # Format tag output
 ] {
-  mut args = []
-
-  if $format != null {
-    $args = ( $args | append ["--format" $format] )
+  let format = if $format != null {
+    "%(refname:strip=2)%00%(contents:subject)"
   } else {
-    $args = ( $args | append ["--format" "%(refname:strip=2)%00%(contents:subject)"] )
+    $format
   }
 
-  let args = ( $args | append $tagname )
+  let args = [
+    "--verify"
+    "--format" $format
+    $tagname
+  ]
 
-  GIT_PAGER=cat run-external "git" "tag" "-v" $args
+  GIT_PAGER=cat run-external "git" "tag" $args
 }
 
