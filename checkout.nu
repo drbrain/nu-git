@@ -1,13 +1,13 @@
-use ../options.nu [
+use options.nu [
   conflict
 ]
 
-use ../wrapper.nu [
-  modified,
+use wrapper.nu [
+  modified
 ]
 
 # Restore working tree files
-export extern "git checkout" [
+export extern main [
   ...pathspec: path@modified  # Limit paths to checkout
   -b: string                  # Create and checkout a new branch
   -B: string                  # Create/reset and checkout a branch
@@ -30,6 +30,5 @@ export extern "git checkout" [
   --patch(-p)                 # Interactively add hunks of patch between the index and the work tree
   --ignore-skip-worktree-bits # Do not limit pathspecs to sparse entries only
   --pathspec-from-file: path  # Read pathspec from file
-  --help                      # Show help
 ]
 

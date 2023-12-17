@@ -1,7 +1,7 @@
 # Adapted from original by Yorick Sijsling
 # Adapted from bash version by Rob Miller <rob@bigfish.co.uk>
 
-use ../wrapper.nu [
+use wrapper.nu [
   config_get
   git_remotes
 ]
@@ -9,7 +9,7 @@ use ../wrapper.nu [
 # Delete local (and optionally remote) merged branches
 #
 # Set cleanup-repo.keep locally to a space-separated list of branch patterns to keep
-export def "git cleanup-repo" [
+export def main [
   upstream: string@remotes = "origin" # Upstream remote repository
 ] {
   let current_branch = current_branch

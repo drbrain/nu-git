@@ -1,5 +1,5 @@
 # Clone a repository into a new directory
-export extern "git clone" [
+export extern main [
   --local(-l)                 # Copy HEAD, objects, and refs directories from a local repo
   --no-hardlinks              # Don't use hard links to .git/objects when cloning a local repo
   --shared(-s)                # Share objects with a local repo (instead of hard links)

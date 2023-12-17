@@ -1,13 +1,13 @@
-use ../options.nu [
-  strategy,
+use options.nu [
+  strategy
 ]
 
-use ../wrapper.nu [
+use wrapper.nu [
   commits
 ]
 
 # Apply changes introduced by existing commits
-export extern "git cherry-pick" [
+export extern main [
   ...commits: string@commits      # Commit to cherry-pick
   --edit(-e)                      # Edit the message prior to committing
   --cleanup: string               # Set message cleanup mode

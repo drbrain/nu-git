@@ -5,12 +5,12 @@
 export module add.nu
 export module blame.nu
 export module branch.nu
-# export use git/checkout.nu *
-# export use git/cherry-pick.nu *
-# export use git/cleanup-repo.nu *
-# export use git/clone.nu *
+export module checkout.nu
+export module cherry-pick.nu
+export module cleanup-repo.nu
+export module clone.nu
 export module commit.nu
-# export use git/config.nu *
+export module config.nu
 export module diff.nu
 # export use git/fetch.nu *
 # export use git/fsck.nu *

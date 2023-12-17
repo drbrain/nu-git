@@ -1,4 +1,4 @@
-export def names [
+def names [
   context: string
 ] {
   let config = if not ( $context | parse -r '--global' | is-empty ) {
@@ -208,12 +208,12 @@ def result_to_list [] {
 # }
 
 # Get and set repository or global options
-export def "git config" [] {
+export def main [] {
   help git config
 }
 
 # Add a new line to the option without altering existing values
-export def "git config add" [
+export def add [
   --global                   # Use user .gitconfig
   --system                   # Use system .gitconfig
   --local                    # Use repository .gitconfig (default)
@@ -233,7 +233,7 @@ export def "git config add" [
 }
 
 # Open a config file in your editor
-export def "git config edit" [
+export def edit [
   --global         # Use user .gitconfig
   --system         # Use system .gitconfig
   --local          # Use repository .gitconfig (default)
@@ -247,7 +247,7 @@ export def "git config edit" [
 }
 
 # Get avalue for a key
-export def "git config get" [
+export def get [
   --global                   # Use user .gitconfig
   --system                   # Use system .gitconfig
   --local                    # Use repository .gitconfig (default)
@@ -279,7 +279,7 @@ export def "git config get" [
 }
 
 # Get all values for a multi-value key
-export def "git config get-all" [
+export def "get-all" [
   --global                   # Use user .gitconfig
   --system                   # Use system .gitconfig
   --local                    # Use repository .gitconfig (default)
@@ -309,7 +309,7 @@ export def "git config get-all" [
 }
 
 # Get a color as an ANSI color sequence
-export def "git config get-color" [
+export def "get-color" [
   --global           # Use user .gitconfig
   --system           # Use system .gitconfig
   --local            # Use repository .gitconfig (default)
@@ -330,7 +330,7 @@ export def "git config get-color" [
 }
 
 # Get a color and output "true" or "false"
-export def "git config get-colorbool" [
+export def "get-colorbool" [
   --global                      # Use user .gitconfig
   --system                      # Use system .gitconfig
   --local                       # Use repository .gitconfig (default)
@@ -350,7 +350,7 @@ export def "git config get-colorbool" [
 }
 
 # Get keys that match a regular expression
-export def "git config get-regexp" [
+export def "get-regexp" [
   --global                   # Use user .gitconfig
   --system                   # Use system .gitconfig
   --local                    # Use repository .gitconfig (default)
@@ -381,7 +381,7 @@ export def "git config get-regexp" [
 }
 
 # Get keys that have a matching URL as a component
-export def "git config get-urlmatch" [
+export def "get-urlmatch" [
   --global                   # Use user .gitconfig
   --system                   # Use system .gitconfig
   --local                    # Use repository .gitconfig (default)
@@ -408,7 +408,7 @@ export def "git config get-urlmatch" [
 }
 
 # List all variables and values
-export def "git config list" [
+export def list [
   --global         # Use user .gitconfig
   --system         # Use system .gitconfig
   --local          # Use repository .gitconfig (default)
@@ -430,7 +430,7 @@ export def "git config list" [
 }
 
 # Remove a section
-export def "git config remove-section" [
+export def "remove-section" [
   --global           # Use user .gitconfig
   --system           # Use system .gitconfig
   --local            # Use repository .gitconfig (default)
@@ -446,7 +446,7 @@ export def "git config remove-section" [
 }
 
 # Rename a section
-export def "git config rename-section" [
+export def "rename-section" [
   --global               # Use user .gitconfig
   --system               # Use system .gitconfig
   --local                # Use repository .gitconfig (default)
@@ -463,7 +463,7 @@ export def "git config rename-section" [
 }
 
 # Replace all lines matching a name
-export def "git config replace-all" [
+export def "replace-all" [
   --global                   # Use user .gitconfig
   --system                   # Use system .gitconfig
   --local                    # Use repository .gitconfig (default)
@@ -486,7 +486,7 @@ export def "git config replace-all" [
 }
 
 # Remove a line matching a key
-export def "git config unset" [
+export def "unset" [
   --global               # Use user .gitconfig
   --system               # Use system .gitconfig
   --local                # Use repository .gitconfig (default)
@@ -505,7 +505,7 @@ export def "git config unset" [
 }
 
 # Remove all matching lines
-export def "git config unset-all" [
+export def "unset-all" [
   --global               # Use user .gitconfig
   --system               # Use system .gitconfig
   --local                # Use repository .gitconfig (default)
