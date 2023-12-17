@@ -1,5 +1,5 @@
 # Pick out and massage parameters
-export extern "git rev-parse" [
+export extern main [
   args: string
   --parseopt              # Use git rev-parse option in parsing mode
   --keep-dashdash         # Echo first -- in --parseopt mode

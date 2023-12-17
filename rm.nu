@@ -1,6 +1,6 @@
-use ../wrapper.nu [
-  git_files,
-  modified,
+use wrapper.nu [
+  git_files
+  modified
 ]
 
 def deletable [] {
@@ -15,7 +15,7 @@ def deletable [] {
 }
 
 # Remove files from the working tree and index
-export extern "git rm" [
+export extern main [
   ...pathspec: path@deletable # Files to remove
   --force(-f)                 # Override the up-to-date check
   --dry-run(-n)               # Don't remove files, just show if they would  be

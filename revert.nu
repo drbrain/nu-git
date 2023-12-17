@@ -1,14 +1,14 @@
-use ../options.nu [
+use options.nu [
   cleanup
   strategy
 ]
 
-use ../wrapper.nu [
+use wrapper.nu [
   commits
 ]
 
 # Revert some existing commits
-export extern "git revert" [
+export extern main [
   ...commits: string@commits    # Commits to revert
   --edit(-e)                    # Edit the revert commit message
   --mainline(-m): number        # Merge commit mainline commit number
@@ -25,22 +25,22 @@ export extern "git revert" [
 ]
 
 # Cancel the operation and return to pre-revert state
-export def "git revert abort" [] {
+export def abort [] {
   ^git revert --abort
 }
 
 # Continue the revert after resolving conflicts
-export def "git revert continue" [] {
+export def continue [] {
   ^git revert --continue
 }
 
 # Forget about the revert
-export def "git revert quit" [] {
+export def quit [] {
   ^git revert --quit
 }
 
 # Skip the current commit and continue with the revert
-export def "git revert skip" [] {
+export def skip [] {
   ^git revert --skip
 }
 
