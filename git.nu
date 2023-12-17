@@ -12,11 +12,11 @@ export module clone.nu
 export module commit.nu
 export module config.nu
 export module diff.nu
-# export use git/fetch.nu *
-# export use git/fsck.nu *
-# export use git/gc.nu *
-# export use git/hist.nu *
-# export use git/init.nu *
+export module fetch.nu
+export module fsck.nu
+export module gc.nu
+export module hist.nu
+export module init.nu
 # export use git/log.nu *
 # export use git/ls-files.nu *
 # export use git/merge.nu *

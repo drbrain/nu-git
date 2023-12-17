@@ -1,4 +1,4 @@
-use ../wrapper.nu [
+use wrapper.nu [
   config_get
   git_commits
 ]
@@ -6,7 +6,7 @@ use ../wrapper.nu [
 # Show a simplified view of recent history
 #
 # Count defaults to 100 if `completion-nu.max-commits` config is not set
-export def "git hist" [
+export def main [
   --max-count: int # Number of commits to show
 ] {
   let max_count = try {

@@ -1,5 +1,5 @@
 # Verify the connectivity and validity of objects in the database
-export extern "git fsck" [
+export extern main [
   ...object: string   # An object to treat as the head of an unreachability trace
   --unreachable       # Show objects that exist but are unreachable from the reference nodes
   --dangling          # Print objects that exist but are never directly used

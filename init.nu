@@ -18,7 +18,7 @@ def shared [] {
 }
 
 # Create or reinitialize a git repository
-export extern "git init" [
+export extern main [
   directory: path                # Directory to create a git repository in
   --quiet(-q)                    # Only print error and warning messages
   --bare                         # Create a bare repository

@@ -1,5 +1,5 @@
 # Clean and optimize the local repository
-export extern "git gc" [
+export extern main [
   --aggressive        # Optimize more agressively and take more time
   --auto              # Check if housekeeping is required and exit if none is required
   --cruft             # Pack unreachable objects into a cruft pack instead of as loose objects

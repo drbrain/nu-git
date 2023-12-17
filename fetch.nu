@@ -1,5 +1,5 @@
 # Download objects and refs from another repository
-export extern "git fetch" [
+export extern main [
   repository: string                   # The remote repository or group of repositories
   ...refspec: string                   # Refs to fetch and local refs to update
   --all                                # Fetch all remotes
