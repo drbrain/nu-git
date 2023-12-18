@@ -1,3 +1,9 @@
+export def comp_commands [] {
+  run-external --redirect-stdout "git" "help" "--all"
+  | help_to_table
+  | rename value description
+}
+
 def help_to_table [] {
   $in
   | lines
@@ -11,7 +17,7 @@ def help_to_table [] {
 #
 # If a command name overlaps with a subcommand use `git help man $item`
 export extern main [
-  item: string # Item to show help for
+  item: string@comp_commands # Item to show help for
 ] {
   run-external git help "--man" $item
 }
@@ -55,14 +61,14 @@ export def guides [] {
 
 # Show a info page for a command or document
 export def info [
-  item: string # Item to show an info page for
+  item: string@comp_commands # Item to show an info page for
 ] {
   run-external git help "--info" $item
 }
 
 # Show a man page for a command or document
 export def man [
-  item: string # Item to show a man page for
+  item: string@comp_commands # Item to show a man page for
 ] {
   run-external git help "--man" $item
 }
@@ -76,7 +82,7 @@ export def "user-interfaces" [] {
 
 # Show a web page for a command or document
 export def web [
-  item: string # Item to show a web page for
+  item: string@comp_commands # Item to show a web page for
 ] {
   run-external git help "--web" $item
 }
