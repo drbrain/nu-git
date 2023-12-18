@@ -3,6 +3,7 @@
 # which is covered by the MIT license
 
 export module add.nu
+export module bisect.nu
 export module blame.nu
 export module branch.nu
 export module checkout.nu
