@@ -17,6 +17,7 @@ export module diff.nu
 export module fetch.nu
 export module fsck.nu
 export module gc.nu
+export module help.nu
 export module hist.nu
 export module init.nu
 export module log.nu
