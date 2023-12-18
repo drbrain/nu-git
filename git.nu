@@ -11,6 +11,7 @@ export module cleanup-repo.nu
 export module clone.nu
 export module commit.nu
 export module config.nu
+export module describe.nu
 export module diff.nu
 export module fetch.nu
 export module fsck.nu
