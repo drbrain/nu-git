@@ -7,6 +7,7 @@ export module blame.nu
 export module branch.nu
 export module checkout.nu
 export module cherry-pick.nu
+export module clean.nu
 export module cleanup-repo.nu
 export module clone.nu
 export module commit.nu
