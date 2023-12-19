@@ -137,7 +137,7 @@ export def git_commits [--hash-format: string = "%h", --max-count: int] {
 # The path to the .git repository
 export def git_dir [] {
   try {
-    run-external --redirect-stdout --trim-end-newline "git" "rev-parse" "--git-dir"
+    run-external --redirect-stdout --trim-end-newline "git" "rev-parse" "--absolute-git-dir"
     | into string
     | str trim --right
   } catch {
