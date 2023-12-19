@@ -1,6 +1,6 @@
 # Pick out and massage parameters
 export extern main [
-  args: string
+  ...args: string
   --parseopt              # Use git rev-parse option in parsing mode
   --keep-dashdash         # Echo first -- in --parseopt mode
   --stop-at-non-option    # Stop at the first non-option in --parseopt mode
