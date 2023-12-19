@@ -134,6 +134,19 @@ export def git_commits [--hash-format: string = "%h", --max-count: int] {
   )
 }
 
+# The path to the .git repository
+export def git_dir [] {
+  try {
+    run-external --redirect-stdout --trim-end-newline "git" "rev-parse" "--git-dir"
+    | into string
+    | str trim --right
+  } catch {
+    error make --unspanned {
+      msg: "Not in a git directory"
+    }
+  }
+}
+
 # Commits for completion
 export def commits [] {
   let max_count = try {

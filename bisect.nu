@@ -1,8 +1,44 @@
+use wrapper.nu [
+  git_dir
+]
+
 alias nu-help = help
 
+def unknown_term [span] {
+  error make {
+    msg: "Unknown bisect term or command"
+    label: {
+      text: "unknown term"
+      span: $span
+    }
+  }
+}
+
 # Use binary search to find the commit that introduced a bug
-export def main [] {
-  nu-help bisect
+export def main [
+  term?: string@terms # Mark commit as term
+  ...rev: string      # Revisions to mark
+] {
+  let repo = git_dir
+  let start = ( $repo | path join "BISECT_START" )
+  let bisect_terms = ( $repo | path join "BISECT_TERMS" )
+
+  if not ( $start | path exists ) {
+    error make -u {
+      msg: "Not currently bisecting, try git bisect start"
+    }
+  } else if ( $term != null and ( $bisect_terms | path exists )) {
+    let terms = open $bisect_terms
+    | lines
+
+    if $term in $terms {
+      run-external "git" "bisect" $term $rev
+    } else {
+      unknown_term (metadata $term).span
+    }
+  } else {
+    unknown_term (metadata $term).span
+  }
 }
 
 # Start bisecting commits
