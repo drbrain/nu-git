@@ -63,6 +63,46 @@ export def conflict [] {
   ]
 }
 
+export def date [] {
+  [
+    { value: "relative", description: "Relative to the current time" },
+    { value: "local", description: "Weekday Month Day HH:MM:SS YYYY local TZ" },
+
+    { value: "iso", description: "YYYY-MM-DD HH:MM:SS TZ" },
+    { value: "iso-local", description: "YYYY-MM-DD HH:MM:SS local TZ" },
+    { value: "iso8601", description: "YYYY-MM-DD HH:MM:SS TZ" },
+    { value: "iso8601-local", description: "YYYY-MM-DD HH:MM:SS local TZ" },
+
+    { value: "iso-strict", description: "YYYY-MM-DDTHH:MM:SS TZ" },
+    { value: "iso8601-struct", description: "YYYY-MM-DDTHH:MM:SS TZ" },
+    { value: "iso-strict", description: "YYYY-MM-DDTHH:MM:SS local TZ" },
+    { value: "iso8601-struct", description: "YYYY-MM-DDTHH:MM:SS local TZ" },
+
+    { value: "rfc", description: "Weekday, DD Month YYYY HH:MM:SS TZ" },
+    { value: "rfc2822", description: "Weekday, DD Month YYYY HH:MM:SS TZ" },
+    { value: "rfc-local", description: "Weekday, DD Month YYYY HH:MM:SS local TZ" },
+    { value: "rfc2822-local", description: "Weekday, DD Month YYYY HH:MM:SS local TZ" },
+
+    { value: "short", description: "YYY-MM-DD" },
+    { value: "short-local", description: "YYY-MM-DD (in local TZ)" },
+
+    { value: "raw", description: "Epoch seconds TZ" },
+    { value: "raw-local", description: "Epoch seconds local TZ" },
+
+    { value: "human", description: "Relative to the current time" },
+    { value: "human-local", description: "Relative to the current time" },
+
+    { value: "unix", description: "Epoch seconds" },
+    { value: "unix-local", description: "Epoch seconds" },
+
+    { value: "format:", description: "strftime format" },
+    { value: "format-local:", description: "strftime format (in local TZ)" },
+
+    { value: "default", description: "Weekday Month Day HH:MM:SS YYYY TZ" },
+    { value: "default-local", description: "Weekday Month Day HH:MM:SS YYYY local TZ" },
+  ]
+}
+
 export def diff_algorithm [] {
   [
     [value description];
@@ -91,6 +131,16 @@ export def diff_word [] {
     ["plain" "Highlight with [-removed-] and {+added+}"]
     ["porcelain" "Highlight with a format for script consumption"]
     ["none" "Do not highlight"]
+  ]
+}
+
+export def exclude_hidden [] {
+  [
+    [value description];
+
+    [fetch "Do not include refs that would be hidden by git-fetch"]
+    [receive "Do not include refs that would be hidden by git-receive-pack"]
+    [uploadpack "Do not include refs that would be hidden by git-upload-pack"]
   ]
 }
 

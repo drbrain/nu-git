@@ -1,3 +1,7 @@
+use options.nu [
+  exclude_hidden
+]
+
 # Parse objects
 export def main [] {
   error make -u {
@@ -14,16 +18,6 @@ def abbrev [] {
   ]
 }
 
-def hide [] {
-  [
-    [value description];
-
-    [fetch "Do not include refs that would be hidden by git-fetch"]
-    [receive "Do not include refs that would be hidden by git-receive-pack"]
-    [uploadpack "Do not include refs that would be hidden by git-upload-pack"]
-  ]
-}
-
 def rev_parse [
   args
 ] {
@@ -31,23 +25,23 @@ def rev_parse [
 }
 
 export def objects [
-  ...objects: string            # Objects to 
-  --abbrev-ref                  # A non-ambiguous short name of the object's name
-  --abbrev-ref: string@abbrev   # A non-ambiguous short name of the object's name
-  --all                         # Return all refs found
-  --branches                    # Return all branches
-  --branches: string            # Return all branches matching this pattern
-  --disambiguate: string        # Return all objects starting with this prefix
-  --exclude-hidden: string@hide # Do not include refs that would be hidden by the given command
-  --exclude: string             # Exclude refs matching this glob
-  --glob: string                # Return all refs matching this glob
-  --not                         # Prefix object names with ^
-  --remotes                     # Return all remotes
-  --remotes: string             # Return all remotes matching this pattern
-  --symbolic                    # Output names as close to the original input as possible
-  --symbolic-full-name          # --symbolic, but show full names for non-refs
-  --tags                        # Return all tags
-  --tags: string                # Return all tags matching this pattern
+  ...objects: string                      # Objects to parse
+  --abbrev-ref                            # A non-ambiguous short name of the object's name
+  --abbrev-ref: string@abbrev             # A non-ambiguous short name of the object's name
+  --all                                   # Return all refs found
+  --branches                              # Return all branches
+  --branches: string                      # Return all branches matching this pattern
+  --disambiguate: string                  # Return all objects starting with this prefix
+  --exclude-hidden: string@exclude_hidden # Do not include refs that would be hidden by the given command
+  --exclude: string                       # Exclude refs matching this glob
+  --glob: string                          # Return all refs matching this glob
+  --not                                   # Prefix object names with ^
+  --remotes                               # Return all remotes
+  --remotes: string                       # Return all remotes matching this pattern
+  --symbolic                              # Output names as close to the original input as possible
+  --symbolic-full-name                    # --symbolic, but show full names for non-refs
+  --tags                                  # Return all tags
+  --tags: string                          # Return all tags matching this pattern
 ] {
   mut args = []
 

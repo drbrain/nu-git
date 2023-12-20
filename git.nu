@@ -31,6 +31,7 @@ export module push.nu
 export module rebase.nu
 export module remote.nu
 export module restore.nu
+export module rev-list.nu
 export module rev-parse.nu
 export module revert.nu
 export module rm.nu
