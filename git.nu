@@ -36,6 +36,7 @@ export module rev-parse.nu
 export module revert.nu
 export module rm.nu
 export module show.nu
+export module show-branch.nu
 export module stash.nu
 export module status.nu
 export module submodule.nu
