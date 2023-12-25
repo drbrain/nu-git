@@ -139,7 +139,7 @@ export def to [
   mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
   if $no_guess { $args = ( $args | append "--no-guess" ) }
 
-  let args = $args | append $guess
+  let args = $args | append $branch
 
   run-external "git" "switch" $args
 }
