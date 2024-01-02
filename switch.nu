@@ -63,7 +63,9 @@ export def create [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  let args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
+
+  if $force_create == null { $args = ( $args | append "--create" ) }
 
   let args = $args | append [ $new_branch $start_point ] | compact
 
