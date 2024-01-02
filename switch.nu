@@ -72,6 +72,24 @@ export def create [
   run-external "git" "switch" $args
 }
 
+# Switch to the default branch
+export def default [] {
+  # TODO: Determine correct remote, "origin" may not exist
+  let head = "refs/remotes/origin/HEAD"
+
+  # TODO: Handle "/" in default branch name
+  let default = run-external --trim-end-newline --redirect-stdout "git" "symbolic-ref" $head
+  | path basename
+
+  let current = run-external --trim-end-newline --redirect-stdout "git" "branch" "--show-current"
+
+  if $default == $current {
+    return 
+  }
+
+  run-external "git" "switch" $default
+}
+
 # Switch to a commit for inspection and experiments
 export def detach [
   start_point: string # Commit to detach
