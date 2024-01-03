@@ -40,9 +40,30 @@ def args [
   $args
 }
 
-# Switch branches
-export def main [] {
-  help git switch
+# Switch to an existing branch
+export def main [
+  branch: string@branches_and_remotes # Branch to switch to
+  --conflict: string@conflict          # Like --merge, but show conflicting hunks
+  --discard-changes                    # Proceed even if the index or working tree differs from HEAD
+  --force(-f)                          # Proceed even if the index or working tree differs from HEAD
+  --force-create(-C): string           # Create a new branch, but reset its start point
+  --guess                              # Try to track a remote branch (default behavior)
+  --ignore-other-worktrees             # Check out the ref even if checked out by another work tree
+  --merge(-m)                          # Merge local changes when switching branches
+  --no-guess                           # Do not try to guess a tracking branch
+  --no-progress                        # Do not show progress
+  --no-track                           # Do not set up upstream configuration
+  --progress                           # Report progress on stderr, even without a terminal
+  --quiet(-q)                          # Quiet
+  --recurse-submodules                 # Update active submodules
+  --track(-t): string@track            # Set up upstream configuration when creating a branch
+] {
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
+  if $no_guess { $args = ( $args | append "--no-guess" ) }
+
+  let args = $args | append $branch
+
+  run-external "git" "switch" $args
 }
 
 # Create a new branch
@@ -138,28 +159,3 @@ export def orphan [
   run-external "git" "switch" $args
 }
 
-# Switch to an existing branch
-export def to [
-  branch: string@branches_and_remotes # Branch to switch to
-  --conflict: string@conflict          # Like --merge, but show conflicting hunks
-  --discard-changes                    # Proceed even if the index or working tree differs from HEAD
-  --force(-f)                          # Proceed even if the index or working tree differs from HEAD
-  --force-create(-C): string           # Create a new branch, but reset its start point
-  --guess                              # Try to track a remote branch (default behavior)
-  --ignore-other-worktrees             # Check out the ref even if checked out by another work tree
-  --merge(-m)                          # Merge local changes when switching branches
-  --no-guess                           # Do not try to guess a tracking branch
-  --no-progress                        # Do not show progress
-  --no-track                           # Do not set up upstream configuration
-  --progress                           # Report progress on stderr, even without a terminal
-  --quiet(-q)                          # Quiet
-  --recurse-submodules                 # Update active submodules
-  --track(-t): string@track            # Set up upstream configuration when creating a branch
-] {
-  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
-  if $no_guess { $args = ( $args | append "--no-guess" ) }
-
-  let args = $args | append $branch
-
-  run-external "git" "switch" $args
-}
