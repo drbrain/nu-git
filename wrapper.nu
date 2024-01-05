@@ -150,7 +150,7 @@ export def git_dir [] {
 # Commits for completion
 export def commits [] {
   let max_count = try {
-    config_get "completion-nu.max-commits" int
+    config_get "nu-git.max-commits" int
   } catch {
     100
   }

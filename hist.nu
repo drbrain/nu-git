@@ -10,7 +10,7 @@ export def main [
   --max-count: int # Number of commits to show
 ] {
   let max_count = try {
-    config_get "completion-nu.max-commits" int
+    config_get "nu-git.max-commits" int
   } catch {
     100
   }
