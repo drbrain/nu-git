@@ -54,7 +54,7 @@ export extern start [
 
 # Mark a commit as bad
 export extern bad [
-  rev: string # Revision to mark bad
+  rev?: string # Revision to mark bad
 ]
 
 # Mark a commit as new
@@ -76,7 +76,6 @@ export extern old [
 export def terms [] {
   run-external --redirect-stdout git bisect terms
   | parse -r "Your current terms are (?<old>.*) for the old state\nand (?<new>.*) for the new state."
-  
 }
 
 # Skip testing a commit
