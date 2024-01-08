@@ -29,7 +29,9 @@ export def config_get [
   let args = $args | append $name
 
   let value = try {
-    run-external --redirect-combine --trim-end-newline "git" "config" $args
+    do -c {
+      run-external --redirect-combine --trim-end-newline "git" "config" $args
+    }
   } catch {
     let error = match $env.LAST_EXIT_CODE {
       1 => {
@@ -134,11 +136,10 @@ export def git_commits [--hash-format: string = "%h", --max-count: int] {
     $"--max-count=($max_count)",
   ]
 
-  ( GIT_PAGER=cat run-external --redirect-stdout "git" $args
+  run-external --redirect-stdout "git" $args
   | lines
   | each { |line| commits_parse_line $line }
   | flatten
-  )
 }
 
 # The path to the .git repository
