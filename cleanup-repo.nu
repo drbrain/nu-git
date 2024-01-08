@@ -3,6 +3,7 @@
 
 use wrapper.nu [
   config_get
+  current_branch
   git_remotes
 ]
 
@@ -55,13 +56,6 @@ export def main [
   }
 
   switch_branch $current_branch
-}
-
-# The current branch name
-def current_branch [] {
-  run-external --redirect-stdout "git" "branch" "--show-current"
-  | into string
-  | str trim
 }
 
 # Delete a local branch

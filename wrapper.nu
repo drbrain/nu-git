@@ -87,6 +87,13 @@ export def config_get [
   }
 }
 
+# The current branch name
+export def current_branch [] {
+  run-external --redirect-stdout "git" "branch" "--show-current"
+  | into string
+  | str trim
+}
+
 # Completion for branches in the local repository
 export def local_branches [] {
   git_local_branches

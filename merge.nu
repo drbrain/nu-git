@@ -4,13 +4,21 @@ use options.nu [
 ]
 
 use wrapper.nu [
-  commits
+  current_branch
   local_branches
 ]
 
+def mergeable [] {
+  let current = current_branch
+  local_branches
+  | where {||
+    $in.value != $current
+  }
+}
+
 # Join two or more branches together
 export extern main [
-  ...commits: string@commits         # Commits to merge into the current branch
+  ...commits: string@mergeable       # Commits to merge into the current branch
   --commit                           # Merge and commit (overrides --no-commit)
   --no-commit                        # Merge but do not commit
   --edit(-e)                         # Launch EDITOR for merge message
