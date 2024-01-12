@@ -12,7 +12,11 @@ export def main [
   let max_count = try {
     config_get "nu-git.max-commits" int
   } catch {
-    100
+    if $max_count != null {
+      $max_count
+    } else {
+      (term size | get rows) - 10
+    }
   }
 
   git_commits --max-count $max_count
