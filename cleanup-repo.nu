@@ -90,7 +90,7 @@ def get_default_branch [
 # Get the local set of branches to always keep
 def get_keep [] {
   try {
-    config_get "cleanup.repo"
+    config_get "cleanup-repo.keep"
   } catch {
     []
   }
@@ -136,7 +136,7 @@ def list_merged [
   | filter {|branch|
     $keep
     | all {|pattern|
-      $branch !~ $'\A($pattern)\z'
+      $branch !~ $pattern
     }
   }
 }
