@@ -32,7 +32,7 @@ def names [
   | parse -r '\s(?<final>[^\s]+)$'
   | get final.0
 
-  run-external --redirect-stdout "git" "config" $args
+  run-external "git" "config" $args
   | lines
   | parse "{origin}\t{scope}\t{value}"
   | where value =~ $"^($complete)"
@@ -376,7 +376,7 @@ export def "get-regexp" [
   let args = option_fixed_value $args $fixed_value
   let args = $args | append [ $name_regex $value_pattern ] | compact
 
-  run-external --redirect-stdout "git" "config" "--get-regexp" "--null" $args
+  run-external "git" "config" "--get-regexp" "--null" $args
   | result_to_output $null $show_origin $show_scope $record
 }
 
@@ -403,7 +403,7 @@ export def "get-urlmatch" [
   let args = option_null $args $null
   let args = $args | append [ $name $url ]
 
-  run-external --redirect-stdout "git" "config" "--get-urlmatch" $args
+  run-external "git" "config" "--get-urlmatch" $args
   | result_to_output $null false false $record
 }
 
@@ -425,7 +425,7 @@ export def list [
   let args = option_show $args $show_origin $show_scope
   if $name_only { $args = ( $args | append "--name-only" ) }
 
-  run-external --redirect-stdout "git" "config" "--list" "--null" $args
+  run-external "git" "config" "--list" "--null" $args
   | result_to_output $null false false $record
 }
 

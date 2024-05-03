@@ -99,10 +99,10 @@ export def default [] {
   let head = "refs/remotes/origin/HEAD"
 
   # TODO: Handle "/" in default branch name
-  let default = run-external --trim-end-newline --redirect-stdout "git" "symbolic-ref" $head
+  let default = run-external "git" "symbolic-ref" $head
   | path basename
 
-  let current = run-external --trim-end-newline --redirect-stdout "git" "branch" "--show-current"
+  let current = run-external "git" "branch" "--show-current"
 
   if $default == $current {
     return 

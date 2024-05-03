@@ -22,14 +22,14 @@ export def exclude-existing [
   }
 
   $in |
-  run-external --redirect-stdout "git" "show-ref" $args
+  run-external "git" "show-ref" $args
 }
 
 # Check whether a reference exists
 export def exists [
   ref: string # Ref to check
 ] {
-  run-external --redirect-combine "git" "show-ref" "--exists" $ref
+  run-external "git" "show-ref" "--exists" $ref
 
   match $env.LAST_EXIT_CODE {
     0 => {}
@@ -94,6 +94,6 @@ export def verify [
 
   let $args = $args | append $ref
 
-  run-external --redirect-stdout "git" "show-ref" $args
+  run-external "git" "show-ref" $args
 }
 

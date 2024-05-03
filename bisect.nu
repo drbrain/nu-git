@@ -74,7 +74,7 @@ export extern old [
 
 # Show custom terms in use
 export def terms [] {
-  run-external --redirect-stdout git bisect terms
+  run-external git bisect terms
   | parse -r "Your current terms are (?<old>.*) for the old state\nand (?<new>.*) for the new state."
 }
 

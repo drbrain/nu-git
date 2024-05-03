@@ -21,7 +21,7 @@ def abbrev [] {
 def rev_parse [
   args
 ] {
-  run-external --redirect-stdout --trim-end-newline "git" "rev-parse" $args
+  run-external "git" "rev-parse" $args
 }
 
 export def objects [
@@ -82,7 +82,7 @@ export def objects [
 
 # List GIT_ environment variables local to the repository
 export def local-env-vars [] {
-  run-external --redirect-stdout "git" "rev-parse" "--local-env-vars"
+  run-external "git" "rev-parse" "--local-env-vars"
   | lines
 }
 

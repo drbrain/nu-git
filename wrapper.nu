@@ -29,9 +29,7 @@ export def config_get [
   let args = $args | append $name
 
   let value = try {
-    do -c {
-      run-external --redirect-combine --trim-end-newline "git" "config" $args
-    }
+    run-external "git" "config" $args
   } catch {
     let error = match $env.LAST_EXIT_CODE {
       1 => {
@@ -91,7 +89,7 @@ export def config_get [
 
 # The current branch name
 export def current_branch [] {
-  run-external --redirect-stdout "git" "branch" "--show-current"
+  run-external "git" "branch" "--show-current"
   | into string
   | str trim
 }
@@ -136,7 +134,7 @@ export def git_commits [--hash-format: string = "%h", --max-count: int] {
     $"--max-count=($max_count)",
   ]
 
-  run-external --redirect-stdout "git" $args
+  run-external "git" $args
   | lines
   | each { |line| commits_parse_line $line }
   | flatten
@@ -145,7 +143,7 @@ export def git_commits [--hash-format: string = "%h", --max-count: int] {
 # The path to the .git repository
 export def git_dir [] {
   try {
-    run-external --redirect-stdout --trim-end-newline "git" "rev-parse" "--absolute-git-dir"
+    run-external "git" "rev-parse" "--absolute-git-dir"
     | into string
     | str trim --right
   } catch {
@@ -184,7 +182,7 @@ export def git_files [] {
     "--format=%(path)%x00%(stage)%x00%(objecttype)%x00%(objectsize)%x00%(objectname)",
   ]
 
-  ( GIT_PAGER=cat run-external --redirect-stdout "git" $args
+  ( GIT_PAGER=cat run-external "git" $args
   | lines
   | each {|line| ls_files_parse $line }
   | flatten
@@ -193,7 +191,7 @@ export def git_files [] {
 }
 
 def for_each_ref [filter] {
-  run-external --redirect-stdout "git" "for-each-ref" "--format=%(refname:lstrip=2)%00%(objectname)" $filter
+  run-external "git" "for-each-ref" "--format=%(refname:lstrip=2)%00%(objectname)" $filter
   | lines
 }
 
@@ -205,7 +203,7 @@ export def git_local_branches [] {
 
 # Remotes for the current repository
 export def git_remotes [] {
-  run-external --redirect-stdout "git" "remote" "-v"
+  run-external "git" "remote" "-v"
   | lines
   | parse "{name}\t{url} ({type})"
 }
@@ -344,7 +342,7 @@ export def git_status [ignored: bool] {
 
   let args = $args
 
-  run-external --redirect-stdout "git" "status" $args
+  run-external "git" "status" $args
   | lines
   | each {||
     $in | parse_line
@@ -370,7 +368,7 @@ export def stash_list [] {
     "--pretty=format:%aI%x00%s",
   ]
 
-  ( GIT_PAGER=cat run-external --redirect-stdout "git" $args
+  ( GIT_PAGER=cat run-external "git" $args
   | lines
   | par-each { |line| stash_list_parse_line $line }
   | flatten
@@ -400,7 +398,7 @@ export def submodule_status [recursive: bool] {
 
   # TODO: Read .gitmodules and run git -C $submodule rev-parse HEAD to find
   # commits and be recursive
-  ( GIT_PAGER=cat run-external --redirect-stdout "git" $args
+  ( GIT_PAGER=cat run-external "git" $args
   | lines
   | par-each { |line| submodule_status_parse_line $line }
   | flatten
@@ -415,7 +413,7 @@ export def git_tags [] {
     "%(refname:strip=2)%00%(contents:subject)"
   ]
 
-  GIT_PAGER=cat run-external --redirect-stdout "git" $args
+  GIT_PAGER=cat run-external "git" $args
   | lines
   | each {||
     $in

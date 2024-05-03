@@ -79,7 +79,7 @@ export def "create" [
 
 # The current branch name
 export def "current" [] {
-  run-external --redirect-stdout "git" "branch" "--show-current"
+  run-external "git" "branch" "--show-current"
   | into string
   | str trim
 }
@@ -194,7 +194,7 @@ export def "list" [
 
   let args = ( $args | append $branches )
 
-  run-external --redirect-stdout "git" "branch" $args
+  run-external "git" "branch" $args
   | lines
   | each {||
     $in

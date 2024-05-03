@@ -1,5 +1,5 @@
 export def comp_commands [] {
-  run-external --redirect-stdout "git" "help" "--all"
+  run-external "git" "help" "--all"
   | help_to_table
   | rename value description
 }
@@ -33,28 +33,28 @@ export def commands [
 
   let args = $args
 
-  run-external --redirect-stdout "git" "help" $args
+  run-external "git" "help" $args
   | help_to_table
   | rename command description
 }
 
 # List configuration variables
 export def config [] {
-  run-external --redirect-stdout git help "--config"
+  run-external git help "--config"
   | lines
   | drop 2
 }
 
 # Show developer interfaces
 export def "developer-interfaces" [] {
-  run-external --redirect-stdout git help "--developer-interfaces"
+  run-external git help "--developer-interfaces"
   | help_to_table
   | rename interface description
 }
 
 # Show git concept guides
 export def guides [] {
-  run-external --redirect-stdout git help "--guides"
+  run-external git help "--guides"
   | help_to_table
   | rename guide description
 }
@@ -75,7 +75,7 @@ export def man [
 
 # Show user interfaces
 export def "user-interfaces" [] {
-  run-external --redirect-stdout git help "--user-interfaces"
+  run-external git help "--user-interfaces"
   | help_to_table
   | rename interface description
 }

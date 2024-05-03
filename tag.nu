@@ -111,7 +111,7 @@ export def list [
 
   let args = ( $args | append $pattern )
 
-  let result = run-external --redirect-stdout "git" "tag" $args
+  let result = run-external "git" "tag" $args
 
   if $format == null {
     $result

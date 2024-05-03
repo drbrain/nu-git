@@ -153,13 +153,13 @@ export def main [
   let args = $args
 
   if $format != null {
-    GIT_PAGER=cat run-external --redirect-stdout "git" "ls-files" $args
+    GIT_PAGER=cat run-external "git" "ls-files" $args
   } else if $name_only {
-    GIT_PAGER=cat run-external --redirect-stdout "git" "ls-files" $args
+    GIT_PAGER=cat run-external "git" "ls-files" $args
     | lines
     | wrap name
   } else {
-    GIT_PAGER=cat run-external --redirect-stdout "git" "ls-files" $args
+    GIT_PAGER=cat run-external "git" "ls-files" $args
     | lines
     | each {|line| 
       $line

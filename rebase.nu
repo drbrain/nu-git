@@ -59,7 +59,7 @@ export extern main [
   --committer-date-is-author-date           # Use the auther date of the commit being rebased as the committer date
   --ignore-date                             # Use the current time as the author date for rebased commits
   --reset-author-date                       # Use the current time as the author date for rebased commits
-  --signoff)                                # Add signed-off-by
+  --signoff                                 # Add signed-off-by
   --interactive(-i)                         # Make an editable list of commits to rebase
   --rebase-merges(-r): string@rebase_merges # Try to preserve branching structure in rebased commits
   --no-rebase-merges                        # Place rebased commits in a single linear branch
