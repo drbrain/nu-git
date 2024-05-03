@@ -32,7 +32,7 @@ def names [
   | parse -r '\s(?<final>[^\s]+)$'
   | get final.0
 
-  run-external "git" "config" $args
+  run-external "git" "config" ...$args
   | lines
   | parse "{origin}\t{scope}\t{value}"
   | where value =~ $"^($complete)"
@@ -66,7 +66,7 @@ def is_tty [] {
 
 def option_default [
   args: list<string>
-  default: string
+  default
 ] {
   if $default != null { $args = ( $args | append [ "--default" $default ]) }
 
@@ -149,8 +149,8 @@ def option_show [
 
 def option_type [
   args: list<string>
-  type: string
-  no_type: bool
+  type
+  no_type
 ] {
   mut args = $args
 
@@ -194,18 +194,17 @@ def result_to_list [] {
   }
 }
 
-# TODO: Needs nushell/nushell#11322
-# def result_to_record [] {
-#   $in
-#   | split row "\u{0}"
-#   | parse -r '^(?<key>[^\n]+)(?:\n(?<value>.*))?'
-#   | reduce --fold {} {|entry, result|
-#     $result
-#     | upsert ( $entry.key | into cell-path ) {||
-#       $entry.value
-#     }
-#   }
-# }
+def result_to_record [] {
+  $in
+  | split row "\u{0}"
+  | parse -r '^(?<key>[^\n]+)(?:\n(?<value>.*))?'
+  | reduce --fold {} {|entry, result|
+    $result
+    | upsert ( $entry.key | split row '.' | into cell-path ) {||
+      $entry.value
+    }
+  }
+}
 
 # Get and set repository or global options
 export def main [] {
@@ -229,7 +228,7 @@ export def add [
   let args = option_type $args $type $no_type
   let args = $args | append [ $name $value ]
 
-  run-external "git" "config" "--add" $args
+  run-external "git" "config" "--add" ...$args
 }
 
 # Open a config file in your editor
@@ -243,7 +242,7 @@ export def edit [
 ] {
   let args = option_file $global $system $local $worktree $file $blob
 
-  run-external "git" "config" "--edit" $args
+  run-external "git" "config" "--edit" ...$args
 }
 
 # Get avalue for a key
@@ -275,7 +274,7 @@ export def get [
   let args = option_default $args $default
   let args = $args | append [ $name $value_pattern ] | compact
 
-  run-external "git" "config" "--get" $args
+  run-external "git" "config" "--get" ...$args
 }
 
 # Get all values for a multi-value key
@@ -305,7 +304,7 @@ export def "get-all" [
   let args = option_fixed_value $args $fixed_value
   let args = $args | append [ $name $value_pattern ] | compact
 
-  run-external "git" "config" "--get-all" $args
+  run-external "git" "config" "--get-all" ...$args
 }
 
 # Get a color as an ANSI color sequence
@@ -326,7 +325,7 @@ export def "get-color" [
   let args = option_default $args $default
   let args = $args | append $name
 
-  run-external "git" "config" "--get-color" $args
+  run-external "git" "config" "--get-color" ...$args
 }
 
 # Get a color and output "true" or "false"
@@ -346,7 +345,7 @@ export def "get-colorbool" [
   let args = option_includes $args $includes $no_includes
   let args = $args | append [ $name $stdout_is_tty ] | compact
 
-  run-external "git" "config" "--get-colorbool" $args
+  run-external "git" "config" "--get-colorbool" ...$args
 }
 
 # Get keys that match a regular expression
@@ -376,7 +375,7 @@ export def "get-regexp" [
   let args = option_fixed_value $args $fixed_value
   let args = $args | append [ $name_regex $value_pattern ] | compact
 
-  run-external "git" "config" "--get-regexp" "--null" $args
+  run-external "git" "config" "--get-regexp" "--null" ...$args
   | result_to_output $null $show_origin $show_scope $record
 }
 
@@ -403,7 +402,7 @@ export def "get-urlmatch" [
   let args = option_null $args $null
   let args = $args | append [ $name $url ]
 
-  run-external "git" "config" "--get-urlmatch" $args
+  run-external "git" "config" "--get-urlmatch" ...$args
   | result_to_output $null false false $record
 }
 
@@ -442,7 +441,7 @@ export def "remove-section" [
   let args = option_file $global $system $local $worktree $file $blob
   let args = $args | append $name
 
-  run-external "git" "config" "--remove-section" $args
+  run-external "git" "config" "--remove-section" ...$args
 }
 
 # Rename a section
@@ -459,7 +458,7 @@ export def "rename-section" [
   let args = option_file $global $system $local $worktree $file $blob
   let args = $args | append [ $old_name $new_name ]
 
-  run-external "git" "config" "--rename-section" $args
+  run-external "git" "config" "--rename-section" ...$args
 }
 
 # Replace all lines matching a name
@@ -482,7 +481,7 @@ export def "replace-all" [
   let args = option_fixed_value $args $fixed_value
   let args = $args | append [ $name $value_pattern ] | compact
 
-  run-external "git" "config" "--replace-all" $args
+  run-external "git" "config" "--replace-all" ...$args
 }
 
 # Remove a line matching a key
@@ -501,7 +500,7 @@ export def "unset" [
   let args = option_fixed_value $args $fixed_value
   let args = $args | append [ $name $value_pattern ] | compact
 
-  run-external "git" "config" "--unset" $args
+  run-external "git" "config" "--unset" ...$args
 }
 
 # Remove all matching lines
@@ -520,6 +519,6 @@ export def "unset-all" [
   let args = option_fixed_value $args $fixed_value
   let args = $args | append [ $name $value_pattern ] | compact
 
-  run-external "git" "config" "--unset-all" $args
+  run-external "git" "config" "--unset-all" ...$args
 }
 
