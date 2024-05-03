@@ -79,8 +79,8 @@ def option_file [
   system: bool,
   local: bool,
   worktree: bool,
-  file: path,
-  blob: string,
+  file,
+  blob,
 ] {
   mut args = []
 
@@ -425,7 +425,7 @@ export def list [
   let args = option_show $args $show_origin $show_scope
   if $name_only { $args = ( $args | append "--name-only" ) }
 
-  run-external "git" "config" "--list" "--null" $args
+  run-external "git" "config" "--list" "--null" ...$args
   | result_to_output $null false false $record
 }
 

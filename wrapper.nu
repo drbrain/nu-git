@@ -105,7 +105,7 @@ export def local_branches [] {
 
 # Completion for files modified in the index
 export def modified [] {
-  git_status false
+  git_status --ignored=false
   | select name status
   | rename value description
 }
@@ -336,13 +336,13 @@ def parse_states [] {
   }
 }
 
-export def git_status [ignored: bool] {
+export def git_status [--ignored] {
   mut args = [ "--porcelain=2" ]
   if ($ignored | into bool) { $args = ( $args | append "--ignored" ) }
 
   let args = $args
 
-  run-external "git" "status" $args
+  run-external "git" "status" ...$args
   | lines
   | each {||
     $in | parse_line

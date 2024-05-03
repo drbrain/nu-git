@@ -31,10 +31,8 @@ use wrapper.nu [
 #]
 
 # Show the working tree status
-export def main [ --ignored ] {
-  let $ignored = $ignored | into string
-
-  git_status $ignored
+export def main [--ignored] {
+  git_status --ignored=$ignored
   | select name status staged unstaged --ignore-errors
 }
 
