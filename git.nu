@@ -15,6 +15,7 @@ export module commit.nu
 export module config.nu
 export module describe.nu
 export module diff.nu
+export module difftool.nu
 export module fetch.nu
 export module fsck.nu
 export module gc.nu
