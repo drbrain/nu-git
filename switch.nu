@@ -8,19 +8,19 @@ use wrapper.nu [
 ]
 
 def args [
-  conflict: string
-  discard_changes: bool
-  force: bool
-  force_create: string
-  guess: string
-  ignore_other_worktrees: bool
-  merge: bool
-  no_progress: bool
+  conflict
+  discard_changes
+  force
+  force_create
+  guess
+  ignore_other_worktrees
+  merge
+  no_progress
+  recurse_submodules
+  track
   --no-track
-  progress: bool
-  quiet: bool
-  recurse_submodules: bool
-  track: string
+  --progress
+  --quiet
 ] {
   mut args = []
   if $conflict != null { $args = ( $args | append [ "--conflict" $conflict ]) }
@@ -58,12 +58,12 @@ export def main [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $recurse_submodules $track --no-track=$no_track --progress=$progress --quiet=$quiet
   if $no_guess { $args = ( $args | append "--no-guess" ) }
 
   let args = $args | append $branch
 
-  run-external "git" "switch" $args
+  run-external "git" "switch" ...$args
 }
 
 # Create a new branch
@@ -84,13 +84,13 @@ export def create [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $recurse_submodules $track --no-track=$no_track --progress=$progress --quiet=$quiet
 
   if $force_create == null { $args = ( $args | append "--create" ) }
 
   let args = $args | append [ $new_branch $start_point ] | compact
 
-  run-external "git" "switch" $args
+  run-external "git" "switch" ...$args
 }
 
 # Switch to the default branch
@@ -128,11 +128,11 @@ export def detach [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  let args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $recurse_submodules $track --no-track=$no_track --progress=$progress --quiet=$quiet
 
   let args = $args | append $start_point
 
-  run-external "git" "switch" $args
+  run-external "git" "switch" ...$args
 }
 
 # Create a new orphan branch
@@ -152,10 +152,10 @@ export def orphan [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  let args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $recurse_submodules $track --no-track=$no_track --progress=$progress --quiet=$quiet
 
   let args = $args | append $new_branch
 
-  run-external "git" "switch" $args
+  run-external "git" "switch" ...$args
 }
 
