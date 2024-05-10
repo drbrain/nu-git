@@ -19,7 +19,7 @@ export def main [
     }
   }
 
-  git_commits --max-count $max_count
+  git_commits --max-count=$max_count
   | move author --after subject
   | move date --after author
 }

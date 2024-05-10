@@ -16,7 +16,7 @@ def args [
   ignore_other_worktrees: bool
   merge: bool
   no_progress: bool
-  no_track: bool
+  --no-track
   progress: bool
   quiet: bool
   recurse_submodules: bool
@@ -58,7 +58,7 @@ export def main [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
   if $no_guess { $args = ( $args | append "--no-guess" ) }
 
   let args = $args | append $branch
@@ -84,7 +84,7 @@ export def create [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
+  mut args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
 
   if $force_create == null { $args = ( $args | append "--create" ) }
 
@@ -128,7 +128,7 @@ export def detach [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  let args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
+  let args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
 
   let args = $args | append $start_point
 
@@ -152,7 +152,7 @@ export def orphan [
   --recurse-submodules                 # Update active submodules
   --track(-t): string@track            # Set up upstream configuration when creating a branch
 ] {
-  let args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress $no_track $progress $quiet $recurse_submodules $track
+  let args = args $conflict $discard_changes $force $force_create $guess $ignore_other_worktrees $merge $no_progress --no-track=$no_track $progress $quiet $recurse_submodules $track
 
   let args = $args | append $new_branch
 

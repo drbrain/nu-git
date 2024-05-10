@@ -120,24 +120,24 @@ export def remote_branches [] {
 }
 
 def commits_parse_line [line: string] {
-  ( $line
-  | split column "\u{0}"
-  | rename ref author date subject
-  | upsert date {|| $in.date | into datetime }
-  )
+  $line
 }
 
-export def git_commits [--hash-format: string = "%h", --max-count: int] {
+export def git_commits [
+  --hash-format: string = "%h"
+  --max-count: int
+] {
   let args = [
     "log",
     $"--pretty=format:($hash_format)%x00%an%x00%aI%x00%s",
     $"--max-count=($max_count)",
   ]
 
-  run-external "git" $args
+  run-external "git" ...$args
   | lines
-  | each { |line| commits_parse_line $line }
-  | flatten
+  | split column "\u{0}"
+  | rename ref author date subject
+  | upsert date {|r| $r.date | into datetime }
 }
 
 # The path to the .git repository
