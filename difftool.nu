@@ -9,6 +9,14 @@ export def --env tools [] {
   } else {
     let tools = run-external "git" "difftool" "--tool-help"
       | parse -r "\t\t(?<value>.+?)\\s+(?<description>.*)"
+      | upsert value {|old|
+        if ($old.value | str ends-with ".cmd") {
+          $old.value
+          | str replace ".cmd" ""
+        } else {
+          $old.value
+        }
+      }
 
     $env.GIT_NU_DIFF_TOOLS = $tools
 
