@@ -132,7 +132,7 @@ export def detach [
 
   let args = $args | append $start_point
 
-  run-external "git" "switch" ...$args
+  run-external "git" "switch" "--detach" ...$args
 }
 
 # Create a new orphan branch
