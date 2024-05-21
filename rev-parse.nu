@@ -21,7 +21,7 @@ def abbrev [] {
 def rev_parse [
   args
 ] {
-  run-external "git" "rev-parse" $args
+  run-external "git" "rev-parse" ...$args
 }
 
 export def objects [
