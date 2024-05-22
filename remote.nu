@@ -19,7 +19,7 @@ export def main [
     []
   }
 
-  let remotes = run-external "git" "remote" $args
+  let remotes = run-external "git" "remote" ...$args
   | lines
 
   if $verbose {

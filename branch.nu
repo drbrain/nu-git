@@ -36,7 +36,7 @@ export def "copy" [
 
   let args = ( $args | append $new_branch )
 
-  run-external "git" "branch" $args
+  run-external "git" "branch" ...$args
 }
 
 # Create a branch
@@ -74,7 +74,7 @@ export def "create" [
 
   let args = $args
 
-  run-external "git" "branch" $args
+  run-external "git" "branch" ...$args
 }
 
 # The current branch name
@@ -104,7 +104,7 @@ export def "delete" [
 
   let args = ( $args | append $branches )
 
-  run-external "git" "branch" $args
+  run-external "git" "branch" ...$args
 }
 
 # List branches
@@ -194,7 +194,7 @@ export def "list" [
 
   let args = ( $args | append $branches )
 
-  run-external "git" "branch" $args
+  run-external "git" "branch" ...$args
   | lines
   | each {||
     $in
@@ -202,7 +202,7 @@ export def "list" [
   }
   | flatten
   | nu-rename branch current upstream object
-  | upsert current {|| $in.current == "*" }
+  | upsert current {|branch| $branch.current == "*" }
 }
 
 # Edit the description for a branch
@@ -232,7 +232,7 @@ export def "rename" [
 
   let args = ( $args | append $new_branch )
 
-  run-external "git" "branch" $args
+  run-external "git" "branch" ...$args
 }
 
 # Remove the upstream for a branch

@@ -165,7 +165,7 @@ export def main [
       $line
       | split column "\u{0}"
       | rename name stage type size
-      | upsert size {|| $in.size | into filesize }
+      | upsert size {|file| $file.size | into filesize }
     }
     | flatten
   }

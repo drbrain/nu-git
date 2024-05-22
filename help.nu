@@ -33,7 +33,7 @@ export def commands [
 
   let args = $args
 
-  run-external "git" "help" $args
+  run-external "git" "help" ...$args
   | help_to_table
   | rename command description
 }

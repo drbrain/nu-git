@@ -58,14 +58,14 @@ export def create [
 
   let args = $args
 
-  GIT_PAGER=cat run-external "git" "tag" $args
+  GIT_PAGER=cat run-external "git" "tag" ...$args
 }
 
 # Delete tags
 export def delete [
   ...tagname: string@tags # Tags to delete
 ] {
-  run-external "git" "tag" "--delete" $tagname
+  run-external "git" "tag" "--delete" ...$tagname
 }
 
 # List tags
@@ -111,7 +111,7 @@ export def list [
 
   let args = ( $args | append $pattern )
 
-  let result = run-external "git" "tag" $args
+  let result = run-external "git" "tag" ...$args
 
   if $format == null {
     $result
@@ -144,6 +144,6 @@ export def verify [
     $tagname
   ]
 
-  GIT_PAGER=cat run-external "git" "tag" $args
+  GIT_PAGER=cat run-external "git" "tag" ...$args
 }
 

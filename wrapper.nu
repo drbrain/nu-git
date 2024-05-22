@@ -29,7 +29,7 @@ export def config_get [
   let args = $args | append $name
 
   let value = try {
-    run-external "git" "config" $args
+    run-external "git" "config" ...$args
   } catch {
     let error = match $env.LAST_EXIT_CODE {
       1 => {
@@ -127,13 +127,7 @@ export def git_commits [
   --hash-format: string = "%h"
   --max-count: int
 ] {
-  let args = [
-    "log",
-    $"--pretty=format:($hash_format)%x00%an%x00%aI%x00%s",
-    $"--max-count=($max_count)",
-  ]
-
-  run-external "git" ...$args
+  run-external "git" "log" $"--pretty=format:($hash_format)%x00%an%x00%aI%x00%s" $"--max-count=($max_count)"
   | lines
   | split column "\u{0}"
   | rename ref author date subject
@@ -170,27 +164,22 @@ export def commits [] {
 }
 
 export def ls_files_parse [line: string] {
-  ( $line
+  $line
   | split column "\u{0}"
   | rename name stage type size object_name
-  )
 }
 
 export def git_files [] {
-  let args = [
-    "ls-files",
-    "--format=%(path)%x00%(stage)%x00%(objecttype)%x00%(objectsize)%x00%(objectname)",
-  ]
-
-  ( GIT_PAGER=cat run-external "git" $args
+  GIT_PAGER=cat run-external "git" "ls-files" "--format=%(path)%x00%(stage)%x00%(objecttype)%x00%(objectsize)%x00%(objectname)"
   | lines
   | each {|line| ls_files_parse $line }
   | flatten
-  )
 
 }
 
-def for_each_ref [filter] {
+def for_each_ref [
+  filter
+] {
   run-external "git" "for-each-ref" "--format=%(refname:lstrip=2)%00%(objectname)" $filter
   | lines
 }
@@ -350,7 +339,7 @@ export def git_status [--ignored] {
 }
 
 def stash_list_parse_line [line: string] {
-  ( $line
+  $line
   | split column "\u{0}"
   | rename date subject
   | update subject { |r|
@@ -358,30 +347,21 @@ def stash_list_parse_line [line: string] {
     | parse -r "WIP on (?P<branch>.*?): (?P<commit>\\w+) (?P<subject>.*)"
   }
   | flatten -a
-  )
 }
 
 export def stash_list [] {
-  let args = [
-    "reflog",
-    "stash"
-    "--pretty=format:%aI%x00%s",
-  ]
-
-  ( GIT_PAGER=cat run-external "git" $args
+  GIT_PAGER=cat run-external "git" "reflog" "stash" "--pretty-format:%aI%x00%s"
   | lines
   | par-each { |line| stash_list_parse_line $line }
   | flatten
-  )
 }
 
 def submodule_status_parse_line [line: string] {
-  ( $line
+  $line
   | parse -r '(?P<status>[ U+-])(?P<SHA>[^ ]+) (?P<path>.*?) \((?P<ref>.*)\)'
   | move status --after ref
   | move path --before SHA
   | move ref --before SHA
-  )
 }
 
 export def submodule_status [recursive: bool] {
@@ -398,22 +378,14 @@ export def submodule_status [recursive: bool] {
 
   # TODO: Read .gitmodules and run git -C $submodule rev-parse HEAD to find
   # commits and be recursive
-  ( GIT_PAGER=cat run-external "git" $args
+  GIT_PAGER=cat run-external "git" ...$args
   | lines
   | par-each { |line| submodule_status_parse_line $line }
   | flatten
-  )
 }
 
 export def git_tags [] {
-  let args = [
-    "tag",
-    "--list"
-    "--format"
-    "%(refname:strip=2)%00%(contents:subject)"
-  ]
-
-  GIT_PAGER=cat run-external "git" $args
+  GIT_PAGER=cat run-external "git" "tag" "--list" "--format" "%(refname:strip=2)%00%(contents:subject)"
   | lines
   | each {||
     $in

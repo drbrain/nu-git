@@ -22,7 +22,7 @@ export def exclude-existing [
   }
 
   $in |
-  run-external "git" "show-ref" $args
+  run-external "git" "show-ref" ...$args
 }
 
 # Check whether a reference exists
@@ -94,6 +94,6 @@ export def verify [
 
   let $args = $args | append $ref
 
-  run-external "git" "show-ref" $args
+  run-external "git" "show-ref" ...$args
 }
 

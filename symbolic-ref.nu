@@ -15,7 +15,7 @@ export def create [
 
   let args = ( $args | append [ $name $ref ] )
 
-  run-external "git" "symbolic-ref" $args
+  run-external "git" "symbolic-ref" ...$args
 }
 
 # Delete a symbolic ref
@@ -29,7 +29,7 @@ export def delete [
 
   let args = ( $args | append $name )
 
-  run-external "git" "symbolic-ref" $args
+  run-external "git" "symbolic-ref" ...$args
 }
 
 # Read the path to a symbolic ref
@@ -49,6 +49,6 @@ export def read [
 
   let args = $args | append $name
 
-  run-external "git" "symbolic-ref" $args
+  run-external "git" "symbolic-ref" ...$args
 }
 
