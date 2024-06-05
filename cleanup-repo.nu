@@ -91,6 +91,7 @@ def get_default_branch [
 def get_keep [] {
   try {
     config_get "cleanup-repo.keep"
+    | split row " "
   } catch {
     []
   }
