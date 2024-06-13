@@ -9,14 +9,12 @@ use wrapper.nu [
 export def main [
   --max-count: int # Number of commits to show
 ] {
-  let max_count = try {
-    config_get "nu-git.max-commits" int
-  } catch {
-    if $max_count != null {
-      $max_count
-    } else {
-      (term size | get rows) - 10
-    }
+  let max_count = config_get "nu-git.max-commits" int
+
+  let max_count = if $max_count != null {
+    $max_count
+  } else {
+    (term size | get rows) - 10
   }
 
   git_commits --max-count=$max_count
