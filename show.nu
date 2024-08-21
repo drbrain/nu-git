@@ -14,28 +14,32 @@ use wrapper.nu [
 
 def diff_merges [] {
   [
-    { value: "off", description: "Disable diff output" }
-    { value: "none", description: "Disable diff output" }
-    { value: "on", description: "Output in default format" }
-    { value: "m", description: "Output in default format" }
-    { value: "first-parent", description: "With respect to first parent" }
-    { value: "1", description: "With respect to first parent" }
-    { value: "separate", description: "With respect to each parent" }
-    { value: "combined", description: "With respect to each parent simultaneously" }
-    { value: "c", description: "With respect to each parent simultaneously" }
-    { value: "dense-combined", description: "With respect to each parent simultaneously, omitting uninteresting hunks" }
-    { value: "cc", description: "With respect to each parent simultaneously, omitting uninteresting hunks" }
-    { value: "remerge", description: "Remerge into a temporary tree then diff the merge commit" }
-    { value: "r", description: "Remerge into a temporary tree then diff the merge commit" }
+    [ value description ];
+
+    [ "off",  "Disable diff output" ]
+    [ "none", "Disable diff output" ]
+    [ "on", "Output in default format" ]
+    [ "m", "Output in default format" ]
+    [ "first-parent", "With respect to first parent" ]
+    [ "1", "With respect to first parent" ]
+    [ "separate", "With respect to each parent" ]
+    [ "combined", "With respect to each parent simultaneously" ]
+    [ "c", "With respect to each parent simultaneously" ]
+    [ "dense-combined", "With respect to each parent simultaneously, omitting uninteresting hunks" ]
+    [ "cc", "With respect to each parent simultaneously, omitting uninteresting hunks" ]
+    [ "remerge", "Remerge into a temporary tree then diff the merge commit" ]
+    [ "r", "Remerge into a temporary tree then diff the merge commit" ]
   ]
 }
 
 def ignore_submodule [] {
   [
-    { value: "none", description: "Never ignore" }
-    { value: "untracked", description: "When they only contain untracked content" }
-    { value: "dirty", description: "When there are worktree changes" }
-    { value: "all", description: "Always ignore" }
+    [ value description ];
+
+    [ "none", "Never ignore" ]
+    [ "untracked", "When they only contain untracked content" ]
+    [ "dirty", "When there are worktree changes" ]
+    [ "all", "Always ignore" ]
   ]
 }
 

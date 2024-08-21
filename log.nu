@@ -1,9 +1,11 @@
 def decorate () {
   [
-    { value: "auto", description: "Short ref names for TTY output" },
-    { value: "full", description: "Include ref prefixes" },
-    { value: "no", description: "Don't decorate" },
-    { value: "short", description: "Omit refs/* prefixes" },
+    [ value, description ];
+
+    [ "auto", "Short ref names for TTY output" ]
+    [ "full", "Include ref prefixes" ]
+    [ "no", "Don't decorate" ]
+    [ "short", "Omit refs/* prefixes" ]
   ]
 }
 
