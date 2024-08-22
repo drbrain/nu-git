@@ -5,18 +5,22 @@ use wrapper.nu [
 
 def recurse [] {
   [
-    { value: "check", description: "Verify submodule commits are pushed" }
-    { value: "on-demand", description: "Push changed submodules" }
-    { value: "only", description: "Push only submodules" }
-    { value: "no", description: "Do not push submodules" }
+    [ value, description];
+
+    [ "check", "Verify submodule commits are pushed" ]
+    [ "on-demand", "Push changed submodules" ]
+    [ "only", "Push only submodules" ]
+    [ "no", "Do not push submodules" ]
   ]
 }
 
 def signed [] {
   [
-    { value: "true", description: "Fail if signed pushes are not supported" }
-    { value: "false", description: "Do not attempt signing" }
-    { value: "if-asked", description: "Sign if supported by the server" }
+    [ value, description];
+
+    [ "true", "Fail if signed pushes are not supported" ]
+    [ "false", "Do not attempt signing" ]
+    [ "if-asked", "Sign if supported by the server" ]
   ]
 }
 
