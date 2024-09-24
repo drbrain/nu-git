@@ -68,7 +68,11 @@ def option_default [
   args: list<string>
   default
 ] {
-  if $default != null { $args = ( $args | append [ "--default" $default ]) }
+  mut args = $args
+
+  if $default != null {
+    $args = ( $args | append [ "--default" $default ])
+  }
 
   $args
 }
@@ -421,7 +425,8 @@ export def list [
   --record         # Output as a record
 ] {
   let args = option_file $global $system $local $worktree $file $blob
-  let args = option_show $args $show_origin $show_scope
+  mut args = option_show $args $show_origin $show_scope
+
   if $name_only { $args = ( $args | append "--name-only" ) }
 
   run-external "git" "config" "--list" "--null" ...$args
