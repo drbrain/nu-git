@@ -30,8 +30,10 @@ export def config_get [
 
   let value = try {
     run-external "git" "config" ...$args
-  } catch {
-    let error = match $env.LAST_EXIT_CODE {
+  } catch {|e|
+    print -e $e.exit_code?
+
+    let error = match $e.exit_code {
       1 => {
         error make {
           msg: "Config entry not found"
