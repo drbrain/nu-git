@@ -31,8 +31,6 @@ export def config_get [
   let value = try {
     run-external "git" "config" ...$args
   } catch {|e|
-    print -e $e.exit_code?
-
     let error = match $e.exit_code {
       1 => {
         error make {
