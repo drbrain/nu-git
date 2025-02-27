@@ -249,7 +249,7 @@ export def edit [
   run-external "git" "config" "--edit" ...$args
 }
 
-# Get avalue for a key
+# Get a value for a key
 export def get [
   --global                   # Use user .gitconfig
   --system                   # Use system .gitconfig

@@ -5,14 +5,15 @@ use wrapper.nu [
 
 # Show a simplified view of recent history
 #
-# Count defaults to 100 if `completion-nu.max-commits` config is not set
+# Count defaults to 10 less than the terminal height if
+# `completion-nu.max-commits` config is not set
 export def main [
   --max-count: int # Number of commits to show
 ] {
   let max_count = try {
     config_get "nu-git.max-commits" int
   } catch {
-    (term size).rows - 4
+    (term size).rows
   }
 
   let max_count = if $max_count != null {
