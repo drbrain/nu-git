@@ -14,7 +14,7 @@ export def branches_and_remotes [] {
   | sort
 }
 
-# Get config value and type
+# Get local config value and type
 export def config_get [
   name: string  # Config name
   type?: string # Value type

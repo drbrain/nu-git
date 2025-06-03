@@ -9,12 +9,21 @@ use wrapper.nu [
 
 # Delete local (and optionally remote) merged branches
 #
-# Set cleanup-repo.keep locally to a space-separated list of branch patterns to keep
+# To prevent branches from being cleaned up set the cleanup-repo.keep to a
+# space-separated list of branch patterns to keep:
+#
+#     git config add --local cleanup-repo.keep "releases/*"
+#
+# Set cleanup-repo.clean-remote to never, ask (default), or always delete
+# merged branches on the remote:
+#
+#     get config add --local cleanup-repo.clean-remote never
 export def main [
   upstream: string@remotes = "origin" # Upstream remote repository
 ] {
   let current_branch = current_branch
   let default_branch = get_default_branch $"refs/remotes/($upstream)/HEAD"
+  let clean_remote = get_clean_remote
   let keep = get_keep
 
   # Switch to the default branch
@@ -37,7 +46,7 @@ export def main [
   # Again with remote branches
   let merged_on_remote = list_merged --remote $upstream $default_branch $keep
 
-  if not ( $merged_on_remote | is-empty ) {
+  if $clean_remote != "never" and not ( $merged_on_remote | is-empty ) {
     print "The following remote branches are fully merged and will be removed:"
 
     $merged_on_remote
@@ -47,7 +56,17 @@ export def main [
 
     print ""
 
-    if ( input --suppress-output "Continue (y/N)? " | str trim ) == "y" {
+    let clean_remote = if $clean_remote == "ask" {
+      if ( input --suppress-output "Continue (y/N)? " | str trim ) == "y" {
+        "always"
+      } else {
+        "never"
+      }
+    } else {
+      $clean_remote
+    }
+
+    if $clean_remote == "always" {
       $merged_on_remote
       | each {|branch|
         delete_remote $upstream $branch
@@ -70,7 +89,14 @@ def delete_remote [
   upstream: string # Repository to delete from
   branch: string   # branch to delete
 ] {
-  run-external "git" "push" "--quiet" "--delete" $upstream $branch
+  try {
+    run-external "git" "push" "--quiet" "--delete" $upstream $branch
+  } catch  {
+    error make --unspanned {
+      msg: $"Unable to delete branch ($branch) from ($upstream)"
+      help: "Is cleanup-repo.keep configured for protected branches?"
+    }
+  }
 }
 
 # Get the default branch
@@ -87,7 +113,21 @@ def get_default_branch [
   | path basename
 }
 
-# Get the local set of branches to always keep
+# Get the remote clean option
+def get_clean_remote [] {
+  try {
+    match (config_get "cleanup-repo.clean-remote") {
+      "always" => "always"
+      "ask" => "ask"
+      "never" => "never"
+      _ => "ask"
+    }
+  } catch {
+    "ask"
+  }
+}
+
+# Get the local branch patterns to always keep
 def get_keep [] {
   try {
     config_get "cleanup-repo.keep"
