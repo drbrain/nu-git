@@ -33,6 +33,6 @@ use wrapper.nu [
 # Show the working tree status
 export def main [--ignored] {
   git_status --ignored=$ignored
-  | select name status staged unstaged --ignore-errors
+  | select name status staged unstaged --optional
 }
 
