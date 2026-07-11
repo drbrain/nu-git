@@ -3,49 +3,136 @@
 # which is covered by the MIT license
 
 export module add.nu
+export use add
+
 export module bisect.nu
+export use bisect
+
 export module blame.nu
+export use blame
+
 export module branch.nu
+export use branch
+
 export module checkout.nu
+export use checkout
+
 export module cherry-pick.nu
+export use cherry-pick
+
 export module clean.nu
+export use clean
+
 export module cleanup-repo.nu
+export use cleanup-repo
+
 export module clone.nu
+export use clone
+
 export module commit.nu
+export use commit
+
 export module config.nu
+export use config
+
 export module describe.nu
+export use describe
+
 export module diff.nu
+export use diff
+
 export module difftool.nu
+export use difftool
+
 export module fetch.nu
+export use fetch
+
 export module fsck.nu
+export use fsck
+
 export module gc.nu
+export use gc
+
 export module help.nu
+export use help
+
 export module hist.nu
+export use hist
+
 export module init.nu
+export use init
+
 export module log.nu
+export use log
+
 export module ls-files.nu
+export use ls-files
+
 export module merge.nu
+export use merge
+
 export module mv.nu
+export use mv
+
 export module prune.nu
+export use prune
+
 export module pull.nu
+export use pull
+
 export module push.nu
+export use push
+
 export module rebase.nu
+export use rebase
+
 export module remote.nu
+export use remote
+
 export module reset.nu
+export use reset
+
 export module restore.nu
+export use restore
+
 export module rev-list.nu
+export use rev-list
+
 export module rev-parse.nu
+export use rev-parse
+
 export module revert.nu
+export use revert
+
 export module rm.nu
+export use rm
+
 export module show.nu
+export use show
+
 export module show-branch.nu
+export use show-branch
+
 export module show-ref.nu
+export use show-ref
+
 export module stash.nu
+export use stash
+
 export module status.nu
+export use status
+
 export module submodule.nu
+export use submodule
+
 export module switch.nu
+export use switch
+
 export module symbolic-ref.nu
+export use symbolic-ref
+
 export module tag.nu
+export use tag
 
 # A revision control system
 export def main [] {
