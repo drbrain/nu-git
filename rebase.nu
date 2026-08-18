@@ -76,33 +76,33 @@ export extern main [
 ]
 
 # Abort rebasing and reset HEAD to the original branch
-export def abort [] {
+export def "rebase abort" [] {
   ^git rebase --abort
 }
 
 # Restart the rebasing process after having resolved a merge conflict
-export def continue [] {
+export def "rebase continue" [] {
   ^git rebase --continue
 }
 
 # Edit the todo list during interactive rebase
-export def "edit-todo" [] {
+export def "rebase edit-todo" [] {
   ^git rebase --edit-todo
 }
 
 # Show the current patch when the rebase is stopped
-export def "show-current-patch" [] {
+export def "rebase show-current-patch" [] {
   ^git rebase --show-current-patch
 }
 
 
 # Restart rebasing after skipping the current patch
-export def skip [] {
+export def "rebase skip" [] {
   ^git rebase --skip
 }
 
 # Abort rebasing but HEAD is not reset to the original branch
-export def quit [] {
+export def "rebase quit" [] {
   ^git rebase --quit
 }
 

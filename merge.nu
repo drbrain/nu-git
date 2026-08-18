@@ -60,18 +60,18 @@ export extern main [
 ]
 
 # Abort the merge and try to reconstruct the pre-merge state
-export def abort [] {
+export def "merge abort" [] {
   ^git merge --abort
 }
 
 # Proceed with the merge after resolving conflicts
-export def continue [] {
+export def "merge continue" [] {
   ^git merge --continue
 }
 
 # Forget about the murge in-progress
 #
 # Leave the index and working tree as-is
-export def quit [] {
+export def "merge quit" [] {
   ^git merge --quit
 }

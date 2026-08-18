@@ -5,8 +5,7 @@
 export module add.nu
 export use add
 
-export module bisect.nu
-export use bisect
+export use bisect.nu *
 
 export module blame.nu
 export use blame
@@ -68,8 +67,7 @@ export use log
 export module ls-files.nu
 export use ls-files
 
-export module merge.nu
-export use merge
+export use merge.nu *
 
 export module mv.nu
 export use mv
@@ -83,8 +81,7 @@ export use pull
 export module push.nu
 export use push
 
-export module rebase.nu
-export use rebase
+export use rebase.nu *
 
 export module remote.nu
 export use remote
@@ -101,8 +98,7 @@ export use rev-list
 export module rev-parse.nu
 export use rev-parse
 
-export module revert.nu
-export use revert
+export use revert.nu *
 
 export module rm.nu
 export use rm

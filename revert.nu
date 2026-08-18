@@ -25,22 +25,22 @@ export extern main [
 ]
 
 # Cancel the operation and return to pre-revert state
-export def abort [] {
+export def "revert abort" [] {
   ^git revert --abort
 }
 
 # Continue the revert after resolving conflicts
-export def continue [] {
+export def "revert continue" [] {
   ^git revert --continue
 }
 
 # Forget about the revert
-export def quit [] {
+export def "revert quit" [] {
   ^git revert --quit
 }
 
 # Skip the current commit and continue with the revert
-export def skip [] {
+export def "revert skip" [] {
   ^git revert --skip
 }
 
