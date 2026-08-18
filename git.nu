@@ -2,133 +2,50 @@
 # https://github.com/nushell/nushell/blob/main/crates/nu-utils/src/sample_config/default_config.nu
 # which is covered by the MIT license
 
-export module add.nu
-export use add
-
+export use add.nu
 export use bisect.nu *
-
-export module blame.nu
-export use blame
-
-export module branch.nu
-export use branch
-
-export module checkout.nu
-export use checkout
-
-export module cherry-pick.nu
-export use cherry-pick
-
-export module clean.nu
-export use clean
-
-export module cleanup-repo.nu
-export use cleanup-repo
-
-export module clone.nu
-export use clone
-
-export module commit.nu
-export use commit
-
-export module config.nu
-export use config
-
-export module describe.nu
-export use describe
-
-export module diff.nu
-export use diff
-
-export module difftool.nu
-export use difftool
-
-export module fetch.nu
-export use fetch
-
-export module fsck.nu
-export use fsck
-
-export module gc.nu
-export use gc
-
-export module help.nu
-export use help
-
-export module hist.nu
-export use hist
-
-export module init.nu
-export use init
-
-export module log.nu
-export use log
-
-export module ls-files.nu
-export use ls-files
-
+export use blame.nu
+export use branch.nu
+export use checkout.nu
+export use cherry-pick.nu
+export use clean.nu
+export use cleanup-repo.nu
+export use clone.nu
+export use commit.nu
+export use config.nu
+export use describe.nu
+export use diff.nu
+export use difftool.nu
+export use fetch.nu
+export use fsck.nu
+export use gc.nu
+export use help.nu
+export use hist.nu
+export use init.nu
+export use log.nu
+export use ls-files.nu
 export use merge.nu *
-
-export module mv.nu
-export use mv
-
-export module prune.nu
-export use prune
-
-export module pull.nu
-export use pull
-
-export module push.nu
-export use push
-
+export use mv.nu
+export use prune.nu
+export use pull.nu
+export use push.nu
 export use rebase.nu *
-
-export module remote.nu
-export use remote
-
-export module reset.nu
-export use reset
-
-export module restore.nu
-export use restore
-
-export module rev-list.nu
-export use rev-list
-
-export module rev-parse.nu
-export use rev-parse
-
+export use remote.nu
+export use reset.nu
+export use restore.nu
+export use rev-list.nu
+export use rev-parse.nu
 export use revert.nu *
-
-export module rm.nu
-export use rm
-
-export module show.nu
-export use show
-
-export module show-branch.nu
-export use show-branch
-
-export module show-ref.nu
-export use show-ref
-
-export module stash.nu
-export use stash
-
-export module status.nu
-export use status
-
-export module submodule.nu
-export use submodule
-
-export module switch.nu
-export use switch
-
-export module symbolic-ref.nu
-export use symbolic-ref
-
-export module tag.nu
-export use tag
+export use rm.nu
+export use show.nu
+export use show-branch.nu
+export use show-ref.nu
+export use stash.nu
+export use status.nu
+export use submodule.nu
+export use switch.nu
+export use symbolic-ref.nu
+export use tag.nu
 
 # A revision control system
 export def main [] {
