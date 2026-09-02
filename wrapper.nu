@@ -350,7 +350,7 @@ def stash_list_parse_line [line: string] {
 }
 
 export def stash_list [] {
-  GIT_PAGER=cat run-external "git" "reflog" "stash" "--pretty-format:%aI%x00%s"
+  GIT_PAGER=cat run-external "git" "stash" "list" "--pretty=format:%aI%x00%s"
   | lines
   | par-each { |line| stash_list_parse_line $line }
   | flatten
