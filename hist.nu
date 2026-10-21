@@ -9,6 +9,7 @@ use wrapper.nu [
 # `completion-nu.max-commits` config is not set
 export def main [
   --max-count: int # Number of commits to show
+  --verbose        # Show author and date
 ] {
   let max_count = try {
     config_get "nu-git.max-commits" int
@@ -22,8 +23,13 @@ export def main [
     (term size | get rows) - 10
   }
 
-  git_commits --max-count=$max_count
-  | move author --after subject
-  | move date --after author
+  if $verbose {
+    git_commits --max-count=$max_count
+    | move author --after subject
+    | move date --after author
+  } else {
+    git_commits --max-count=$max_count
+    | select ref subject
+  }
 }
 
